@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "eslint-config-airbnb",
+    "plugin:json/recommended",
+    "prettier",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint",
+    "./lib/eslint"
+  ],
+  "ignorePatterns": [
+    ".gitignore",
+    ".huskyrc.json",
+    ".npmignore",
+    "**/*.scss",
+    "/docs",
+    "/scripts",
+    "package-lock.json",
+    "package.json",
+    "README.md",
+    "tsconfig.json"
+  ]
+}
