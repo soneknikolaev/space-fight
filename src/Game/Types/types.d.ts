@@ -6,21 +6,14 @@ type GraphCanvasContextStyle = Partial<
     }
 >;
 
-interface Entity {
-  render(canvas: Canvas): void;
-  onMove?(touch: TouchEngine): void;
-}
-
-type System = (entities: Entity[], touches: TouchEngine[]) => Entity[];
+type Coordinate = {
+  x: number;
+  y: number;
+};
 
 type Size = {
   width: number;
   height: number;
-};
-
-type Coordinate = {
-  x: number;
-  y: number;
 };
 
 type Canvas = {
@@ -31,15 +24,16 @@ type Canvas = {
   setContextStyles(styles: GraphCanvasContextStyle): void;
 };
 
-type TouchTypeEngine = 'move' | 'press';
-
-type TouchEngine = {
-  type: Type;
+interface CanvasTouchEvent extends GameEventBase {
+  canvas: Canvas;
   position: Coordinate;
+}
+
+type CollisionPair = {
+  bodyA: PhysicEntity;
+  bodyB: PhysicEntity;
 };
 
-type TouchesHandlers = {
-  add(touch: Touch): void;
-  get(): Touch[];
-  reset(): void;
+type Collision = {
+  pairs: CollisionPair[];
 };

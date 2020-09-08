@@ -1,55 +1,58 @@
 import random from 'lodash/random';
+import map from 'lodash/map';
+import forEach from 'lodash/forEach';
+
+import { Base } from './Base';
 
 type Star = Coordinate & { color: string; size: number };
 
 const colors = ['#0000FF', '#FFFF00', '#FFA500', '#FF0000', '#a87bff', '#a6a8ff', '#ffa371'];
-const TRANSLATE = 5;
+const TRANSLATE = 10;
 
-export class Background implements Entity {
-  private position: Coordinate = { x: 0, y: 0 };
-
+export class Background extends Base implements EntityBase {
   private stars?: Star[];
 
-  constructor(x: number, y: number) {
-    this.position = { x, y };
+  constructor(x: number, y: number, width: number, height: number) {
+    super(x, y, false);
+
+    this.setSize(width, height);
   }
 
   render(canvas: Canvas) {
     const ctx = canvas.getContext();
-    const size = canvas.getSize();
-    const { width, height } = size;
-    this.translate(size);
+    const { width, height } = this.getSize();
+    this.translate();
 
     ctx.fillStyle = '#000';
-    ctx.translate(this.position.x, 0);
+    ctx.translate(this.getPosition().x, 0);
     ctx.fillRect(0, 0, width + 2 * TRANSLATE, height);
 
-    if (!this.stars) this.stars = this.getStars(size);
+    if (!this.stars) this.stars = this.getStars();
 
-    this.stars.forEach((star) => this.renderStar(ctx, star));
+    forEach(this.stars, (star) => this.renderStar(ctx, star));
   }
 
-  translate(size: Size) {
-    const { x } = this.position;
-    const { width } = size;
+  private translate() {
+    const { x, y } = this.getPosition();
+    const { width } = this.getSize();
 
     const isFinished = x <= -width;
     const newX = isFinished ? width : x - TRANSLATE;
-    this.position = { ...this.position, x: newX };
 
+    this.setPosition(newX, y);
     if (isFinished) {
-      this.stars = this.getStars(size);
+      this.stars = this.getStars();
     }
   }
 
-  private getStars(size: Size) {
-    const { width, height } = size;
+  private getStars() {
+    const { width, height } = this.getSize();
 
-    return [...new Array(random(20, 80))].map(() => ({
+    return map([...new Array(random(20, 80))], () => ({
       x: random(0, width),
       y: random(0, height),
       size: random(1, 5),
-      color: colors[Math.floor(Math.random() * colors.length)],
+      color: colors[random(0, colors.length - 1)],
     }));
   }
 

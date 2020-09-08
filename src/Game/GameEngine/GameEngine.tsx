@@ -1,7 +1,10 @@
 import React, { useRef } from 'react';
+import reduce from 'lodash/reduce';
+import forEach from 'lodash/forEach';
+
+import { Events } from 'Service/Events';
 
 import { Canvas } from './Canvas';
-import { Touches } from './Touches';
 import { useTick } from './hooks';
 
 export interface IGameEngine {
@@ -13,32 +16,48 @@ export interface IGameEngine {
 
 export const GameEngine: React.FC<IGameEngine> = ({ className, size, systems, ...rest }) => {
   const ref = useRef(null);
+  const canvas = Canvas(ref);
   const entities = useRef(rest.entities);
-  const touches = Touches();
+  const touches = Events<CanvasTouchEvent>();
+  const events = Events<GameEvent>();
 
   useTick(() => {
     if (!ref.current) return;
 
-    const canvas = Canvas(ref);
     const ctx = canvas.getContext();
     const { width, height } = canvas.getSize();
 
     ctx.clearRect(0, 0, width, height);
 
-    entities.current = systems.reduce((acc: Entity[], system: System) => system(acc, touches.get()), entities.current);
+    const time = performance.now();
 
-    entities.current.forEach((entity: Entity) => {
+    entities.current = reduce(
+      systems,
+      (acc: Entity[], system: System) =>
+        system(acc, {
+          canvas,
+          time,
+          touches: touches.get(),
+          events: events.get(),
+          dispatch: events.dispatch,
+        }),
+      entities.current
+    );
+
+    forEach(entities.current, (entity: Entity) => {
       ctx.save();
       entity.render(canvas);
       ctx.restore();
     });
 
     touches.reset();
+    events.reset();
   });
 
-  const onMouseMove = (e: React.MouseEvent) => {
-    touches.add({
-      type: 'move' as TouchTypeEngine,
+  const onTouch = (e: React.MouseEvent) => {
+    touches.dispatch({
+      canvas,
+      type: e.type,
       position: {
         x: e.clientX,
         y: e.clientY,
@@ -46,5 +65,5 @@ export const GameEngine: React.FC<IGameEngine> = ({ className, size, systems, ..
     });
   };
 
-  return <canvas className={className} ref={ref} {...size} onMouseMove={onMouseMove} />;
+  return <canvas className={className} ref={ref} {...size} onMouseMove={onTouch} onClick={onTouch} />;
 };

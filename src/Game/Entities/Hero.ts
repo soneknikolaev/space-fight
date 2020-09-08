@@ -1,38 +1,66 @@
 import { getImage } from 'Service/Images';
 
+import { Physic } from './Base';
+
 const hero = getImage('bird.svg');
 
-export class Hero implements Entity {
-  private size: Size = {
-    width: 40,
-    height: 30,
-  };
-
+export class Hero extends Physic implements PhysicEntity {
   private translateTo: Coordinate = { x: 0, y: 0 };
 
-  private position: Coordinate = { x: 0, y: 0 };
-
   constructor(x: number, y: number) {
-    this.position = this.fixPosition(x, y);
-    this.translateTo = this.position;
+    super(x, y);
+    this.translateTo = this.getPosition();
+    this.setSize(40, 30);
   }
 
   render(canvas: Canvas) {
     this.translate();
     const ctx = canvas.getContext();
-    const { x, y } = this.position;
-    const { width, height } = this.size;
+    const { x, y } = this.getPosition();
+    const { width, height } = this.getSize();
 
     ctx.drawImage(hero, x, y, width, height);
   }
 
-  onMove(touch: TouchEngine) {
-    this.translateTo = this.fixPosition(touch.position.x, touch.position.y);
+  onMove(touch: CanvasTouchEvent) {
+    const { canvas, position } = touch;
+    const heroSize = this.getSize();
+    const canvasSize = canvas.getSize();
+    const width = heroSize.width / 2;
+    const height = heroSize.height / 2;
+    let { x, y } = position;
+
+    const limitX = canvasSize.width - width;
+    const limitY = canvasSize.height - height;
+
+    if (x > limitX) {
+      x = limitX;
+    } else if (x < width) {
+      x = width;
+    }
+
+    if (y > limitY) {
+      y = limitY;
+    } else if (y < height) {
+      y = height;
+    }
+
+    const newX = Math.round(x - width);
+    const newY = Math.round(y - height);
+
+    this.translateTo = { x: newX, y: newY };
+  }
+
+  onPress(_touch: CanvasTouchEvent, params: SystemParams) {
+    params.dispatch({
+      type: 'shot',
+      provider: this,
+    });
   }
 
   private translate() {
     const STEP = 5;
-    const { x, y } = this.position;
+    const { x, y } = this.getPosition();
 
     const deltaX = Math.abs(this.translateTo.x - x);
     const deltaY = Math.abs(this.translateTo.y - y);
@@ -42,15 +70,6 @@ export class Hero implements Entity {
     const newX = this.translateTo.x > x ? x + stepX : x - stepX;
     const newY = this.translateTo.y > y ? y + stepY : y - stepY;
 
-    this.position = { x: Math.round(newX), y: Math.round(newY) };
-  }
-
-  private fixPosition(x: number, y: number): Coordinate {
-    const { width, height } = this.size;
-
-    return {
-      x: Math.round(x - width / 2),
-      y: Math.round(y - height / 2),
-    };
+    this.setPosition(newX, newY);
   }
 }

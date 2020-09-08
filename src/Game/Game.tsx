@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { GameEngine } from './GameEngine';
 import { initEntities } from './Entities';
-import { TouchSystem } from './Systems';
+import { DestroySystem, TouchSystem, EnemySystem, ShotSystem } from './Systems';
 
 import styles from './Game.module.scss';
 
@@ -28,7 +28,12 @@ export const Game = () => {
 
   return (
     <div className={styles.container}>
-      <GameEngine className={styles.game} entities={entities} size={size} systems={[TouchSystem]} />
+      <GameEngine
+        className={styles.game}
+        entities={entities}
+        size={size}
+        systems={[TouchSystem, ShotSystem, EnemySystem, DestroySystem]}
+      />
     </div>
   );
 };
