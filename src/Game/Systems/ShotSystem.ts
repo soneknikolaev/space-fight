@@ -4,7 +4,7 @@ import { Sound } from 'Service/SoundPlayer';
 
 import { Shot } from '../Entities';
 
-export const ShotSystem = (entities: Entity[], params: SystemParams) => {
+export const ShotSystem = (entities: IEntity[], params: SystemParams) => {
   forEach(params.events, (event: GameEvent) => {
     if (event.type === 'shot') {
       const { provider } = event;
@@ -12,7 +12,7 @@ export const ShotSystem = (entities: Entity[], params: SystemParams) => {
       const { x, y } = provider.getPosition();
 
       Sound.shot.play();
-      entities.push(new Shot(x + width + 5, y + height / 2 - 2));
+      entities.push(new Shot(x + width + 5, y + height / 2 - 2, provider));
     }
   });
 

@@ -1,7 +1,13 @@
 import { Background } from './Background';
 import { Hero } from './Hero';
 
-export const initEntities = (size: Size): Entity[] => {
+export * from './Base';
+export * from './Background';
+export * from './Hero';
+export * from './Shot';
+export * from './Enemy';
+
+export default (size: Size) => {
   const { width, height } = size;
 
   return [
@@ -10,9 +16,3 @@ export const initEntities = (size: Size): Entity[] => {
     new Hero(width * 0.1, height / 2),
   ];
 };
-
-export * from './Base';
-export * from './Background';
-export * from './Hero';
-export * from './Shot';
-export * from './Enemy';

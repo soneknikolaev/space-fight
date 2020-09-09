@@ -1,39 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 
 import { GameEngine } from './GameEngine';
-import { initEntities } from './Entities';
+import initEntities from './Entities';
 import { DestroySystem, TouchSystem, EnemySystem, ShotSystem } from './Systems';
+import { useResize, getWindowSize } from './useResize';
 
 import styles from './Game.module.scss';
 
-const getWindowSize = (): Size => ({
-  width: window.innerWidth,
-  height: window.innerHeight,
-});
-
 export const Game = () => {
+  const [score, updateScore] = useState(0);
   const [size, setSize] = useState(getWindowSize());
+  const entities = useRef(initEntities(size));
+  const systems = useRef([TouchSystem, ShotSystem, EnemySystem, DestroySystem]);
 
-  const onResize = () => setSize(getWindowSize());
-
-  useEffect(() => {
-    window.addEventListener('resize', onResize);
-
-    return function cleanup() {
-      window.removeEventListener('resize', onResize);
-    };
+  const onEvent = useCallback((event: GameEvent) => {
+    if (event.type === 'score') {
+      updateScore(score + 1);
+    }
   }, []);
 
-  const entities = initEntities(size);
+  useResize(() => setSize(getWindowSize()));
 
   return (
     <div className={styles.container}>
       <GameEngine
         className={styles.game}
-        entities={entities}
+        entities={entities.current}
         size={size}
-        systems={[TouchSystem, ShotSystem, EnemySystem, DestroySystem]}
+        systems={systems.current}
+        onEvent={onEvent}
       />
+      <div className={styles.score}>{score}</div>
     </div>
   );
 };

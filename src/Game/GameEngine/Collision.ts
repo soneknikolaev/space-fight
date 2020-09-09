@@ -2,14 +2,14 @@ import reduce from 'lodash/reduce';
 import find from 'lodash/find';
 import inRange from 'lodash/inRange';
 
-export const getCollision = (entities: PhysicEntity[]): Collision => {
+export const getCollision = (entities: IPhysicEntity[]): Collision => {
   return {
     pairs: reduce(
       entities,
-      (acc: CollisionPair[], bodyA: PhysicEntity) => {
+      (acc: CollisionPair[], bodyA: IPhysicEntity) => {
         const { x: x1, y: y1 } = bodyA.getPosition();
         const { width: width1, height: height1 } = bodyA.getSize();
-        const bodyB = find(entities, (entity: PhysicEntity) => {
+        const bodyB = find(entities, (entity: IPhysicEntity) => {
           if (entity === bodyA) return false;
 
           const { x: x2, y: y2 } = entity.getPosition();

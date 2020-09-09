@@ -1,10 +1,10 @@
 import { getImage } from 'Service/Images';
 
-import { Physic } from './Base';
+import { PhysicBase } from './Base';
 
 const enemy = getImage('enemy1.svg');
 
-export class Enemy extends Physic implements PhysicEntity {
+export class Enemy extends PhysicBase implements IPhysicEntity {
   constructor(x: number, y: number) {
     super(x, y);
     this.setSize(20, 30);

@@ -1,6 +1,6 @@
 import { Base } from './Base';
 
-export class Physic extends Base implements PhysicBase {
+export class PhysicBase extends Base implements IPhysicBase {
   private destroyed: boolean = false;
 
   constructor(x: number, y: number) {

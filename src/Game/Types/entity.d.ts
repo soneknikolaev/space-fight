@@ -1,10 +1,10 @@
-interface EntityBase {
+interface IEntityBase {
   render(canvas: Canvas): void;
   onMove?(touch: TouchEngine, params: SystemParams): void;
   onPress?(touch: TouchEngine, params: SystemParams): void;
 }
 
-interface StaticBase {
+interface IStaticBase {
   readonly isStatic: boolean;
   readonly id: string;
   getPosition(): Coordinate;
@@ -13,13 +13,13 @@ interface StaticBase {
   setSize(width: number, height: number): void;
 }
 
-interface PhysicBase extends StaticBase {
+interface IPhysicBase extends IStaticBase {
   private destroy(): void;
   isDestroyed: boolean;
 }
 
-interface PhysicEntity extends PhysicBase, EntityBase {}
+interface IPhysicEntity extends IPhysicBase, IEntityBase {}
 
-interface StaticEntity extends StaticBase, EntityBase {}
+interface IStaticEntity extends IStaticBase, IEntityBase {}
 
-type Entity = PhysicEntity | StaticEntity;
+type IEntity = IPhysicEntity | IStaticEntity;

@@ -2,7 +2,8 @@ import { Enemy } from '../Entities';
 
 let steps = 0;
 
-export const EnemySystem = (entities: Entity[], params: SystemParams) => {
+export const EnemySystem = (entities: IEntity[], params: SystemParams) => {
+  // create enemy system
   steps += 1;
 
   const enemyCount = entities.filter((entity) => entity instanceof Enemy).length;

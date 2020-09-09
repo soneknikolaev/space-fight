@@ -1,15 +1,15 @@
 import random from 'lodash/random';
 import map from 'lodash/map';
-import forEach from 'lodash/forEach';
 
 import { Base } from './Base';
 
 type Star = Coordinate & { color: string; size: number };
 
 const colors = ['#0000FF', '#FFFF00', '#FFA500', '#FF0000', '#a87bff', '#a6a8ff', '#ffa371'];
-const TRANSLATE = 10;
 
-export class Background extends Base implements EntityBase {
+export class Background extends Base implements IEntityBase {
+  readonly translateOn = 10;
+
   private stars?: Star[];
 
   constructor(x: number, y: number, width: number, height: number) {
@@ -25,21 +25,18 @@ export class Background extends Base implements EntityBase {
 
     ctx.fillStyle = '#000';
     ctx.translate(this.getPosition().x, 0);
-    ctx.fillRect(0, 0, width + 2 * TRANSLATE, height);
-
-    if (!this.stars) this.stars = this.getStars();
-
-    forEach(this.stars, (star) => this.renderStar(ctx, star));
+    ctx.fillRect(0, 0, width + 2 * this.translateOn, height);
+    this.renderStars(ctx);
   }
 
   private translate() {
     const { x, y } = this.getPosition();
     const { width } = this.getSize();
-
     const isFinished = x <= -width;
-    const newX = isFinished ? width : x - TRANSLATE;
+    const newX = isFinished ? width : x - this.translateOn;
 
     this.setPosition(newX, y);
+
     if (isFinished) {
       this.stars = this.getStars();
     }
@@ -56,10 +53,14 @@ export class Background extends Base implements EntityBase {
     }));
   }
 
-  private renderStar(ctx: CanvasRenderingContext2D, { x, y, size, color }: Star) {
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.arc(x, y, size / 2, 0, 2 * Math.PI);
-    ctx.fill();
+  private renderStars(ctx: CanvasRenderingContext2D) {
+    if (!this.stars) this.stars = this.getStars();
+
+    for (const { x, y, size, color } of this.stars) {
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(x, y, size / 2, 0, 2 * Math.PI);
+      ctx.fill();
+    }
   }
 }

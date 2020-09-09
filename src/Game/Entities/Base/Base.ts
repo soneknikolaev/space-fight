@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export class Base implements StaticBase {
+export class Base implements IStaticBase {
   readonly isStatic: boolean;
 
   readonly id: string;

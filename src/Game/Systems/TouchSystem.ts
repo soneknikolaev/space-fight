@@ -1,15 +1,15 @@
 import forEach from 'lodash/forEach';
 
-export const TouchSystem = (entities: Entity[], params: SystemParams) => {
+export const TouchSystem = (entities: IEntity[], params: SystemParams) => {
   const { touches } = params;
 
   forEach(touches, (touch: CanvasTouchEvent) => {
     if (touch.type === 'mousemove') {
-      entities.forEach((entity: Entity) => entity.onMove && entity.onMove(touch, params));
+      entities.forEach((entity: IEntity) => entity.onMove && entity.onMove(touch, params));
     }
 
     if (touch.type === 'click') {
-      entities.forEach((entity: Entity) => entity.onPress && entity.onPress(touch, params));
+      entities.forEach((entity: IEntity) => entity.onPress && entity.onPress(touch, params));
     }
   });
 

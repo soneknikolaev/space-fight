@@ -1,8 +1,11 @@
-import { Physic } from './Base';
+import { PhysicBase } from './Base';
 
-export class Shot extends Physic implements PhysicEntity {
-  constructor(x: number, y: number) {
+export class Shot extends PhysicBase implements IPhysicEntity {
+  readonly shooter: IPhysicEntity;
+
+  constructor(x: number, y: number, shooter: IPhysicEntity) {
     super(x, y);
+    this.shooter = shooter;
     this.setSize(7, 2);
   }
 

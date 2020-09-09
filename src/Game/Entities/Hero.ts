@@ -1,10 +1,10 @@
 import { getImage } from 'Service/Images';
 
-import { Physic } from './Base';
+import { PhysicBase } from './Base';
 
 const hero = getImage('bird.svg');
 
-export class Hero extends Physic implements PhysicEntity {
+export class Hero extends PhysicBase implements IPhysicEntity {
   private translateTo: Coordinate = { x: 0, y: 0 };
 
   constructor(x: number, y: number) {

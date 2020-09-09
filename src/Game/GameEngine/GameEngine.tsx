@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, memo } from 'react';
 import reduce from 'lodash/reduce';
 import forEach from 'lodash/forEach';
 
@@ -10,11 +10,12 @@ import { useTick } from './hooks';
 export interface IGameEngine {
   className?: string;
   size: Size;
-  entities: Entity[];
+  entities: IEntity[];
   systems: System[];
+  onEvent?: (event: GameEvent) => void;
 }
 
-export const GameEngine: React.FC<IGameEngine> = ({ className, size, systems, ...rest }) => {
+export const GameEngine: React.FC<IGameEngine> = memo(({ className, size, systems, onEvent, ...rest }) => {
   const ref = useRef(null);
   const canvas = Canvas(ref);
   const entities = useRef(rest.entities);
@@ -31,20 +32,25 @@ export const GameEngine: React.FC<IGameEngine> = ({ className, size, systems, ..
 
     const time = performance.now();
 
+    const dispatchEvent = (event: GameEvent) => {
+      onEvent && onEvent(event);
+      events.dispatch(event);
+    };
+
     entities.current = reduce(
       systems,
-      (acc: Entity[], system: System) =>
+      (acc: IEntity[], system: System) =>
         system(acc, {
           canvas,
           time,
           touches: touches.get(),
           events: events.get(),
-          dispatch: events.dispatch,
+          dispatch: dispatchEvent,
         }),
       entities.current
     );
 
-    forEach(entities.current, (entity: Entity) => {
+    forEach(entities.current, (entity: IEntity) => {
       ctx.save();
       entity.render(canvas);
       ctx.restore();
@@ -66,4 +72,4 @@ export const GameEngine: React.FC<IGameEngine> = ({ className, size, systems, ..
   };
 
   return <canvas className={className} ref={ref} {...size} onMouseMove={onTouch} onClick={onTouch} />;
-};
+});
