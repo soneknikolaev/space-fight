@@ -14,21 +14,15 @@ export const getCollision = (entities: IPhysicEntity[]): Collision => {
 
           const { x: x2, y: y2 } = entity.getPosition();
           const { width: width2, height: height2 } = entity.getSize();
-          const isCollisionByX = inRange(x1, x2, x2 + width2) || inRange(x1 + width1, x2, x2 + width2);
-          const isCollisionByY = inRange(y1, y2, y2 + height2) || inRange(y1 + height1, y2, y2 + height2);
+          const endX = x2 + width2 + 1;
+          const endY = y2 + height2 + 1;
+          const isCollisionByX = inRange(x1, x2, endX) || inRange(x1 + width1, x2, endX);
+          const isCollisionByY = inRange(y1, y2, endY) || inRange(y1 + height1, y2, endY);
 
           return isCollisionByX && isCollisionByY;
         });
 
-        if (
-          bodyB &&
-          !find(
-            acc,
-            (pair: CollisionPair) =>
-              (pair.bodyA.id === bodyA.id || pair.bodyA.id === bodyB.id) &&
-              (pair.bodyB.id === bodyA.id || pair.bodyB.id === bodyB.id)
-          )
-        ) {
+        if (bodyB) {
           acc.push({
             bodyA,
             bodyB,

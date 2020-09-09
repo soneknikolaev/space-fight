@@ -9,12 +9,11 @@ export class Hero extends PhysicBase implements IPhysicEntity {
 
   constructor(x: number, y: number) {
     super(x, y);
-    this.translateTo = this.getPosition();
     this.setSize(40, 30);
+    this.translateTo = this.getPosition();
   }
 
   render(canvas: Canvas) {
-    this.translate();
     const ctx = canvas.getContext();
     const { x, y } = this.getPosition();
     const { width, height } = this.getSize();
@@ -58,14 +57,14 @@ export class Hero extends PhysicBase implements IPhysicEntity {
     });
   }
 
-  private translate() {
-    const STEP = 5;
+  translate() {
+    const STEPS = 5;
     const { x, y } = this.getPosition();
 
     const deltaX = Math.abs(this.translateTo.x - x);
     const deltaY = Math.abs(this.translateTo.y - y);
-    const stepX = Math.min(Math.max(deltaX / STEP, 10), deltaX);
-    const stepY = Math.min(Math.max(deltaY / STEP, 10), deltaY);
+    const stepX = Math.min(Math.max(deltaX / STEPS, 10), deltaX);
+    const stepY = Math.min(Math.max(deltaY / STEPS, 10), deltaY);
 
     const newX = this.translateTo.x > x ? x + stepX : x - stepX;
     const newY = this.translateTo.y > y ? y + stepY : y - stepY;

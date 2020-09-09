@@ -1,12 +1,12 @@
 import { PhysicBase } from './Base';
 
-export class Shot extends PhysicBase implements IPhysicEntity {
+export class Bullet extends PhysicBase implements IPhysicEntity {
   readonly shooter: IPhysicEntity;
 
   constructor(x: number, y: number, shooter: IPhysicEntity) {
     super(x, y);
+    this.setSize(10, 2);
     this.shooter = shooter;
-    this.setSize(7, 2);
   }
 
   render(canvas: Canvas) {
@@ -21,7 +21,7 @@ export class Shot extends PhysicBase implements IPhysicEntity {
     ctx.fill();
   }
 
-  private translate(canvas: Canvas) {
+  translate(canvas: Canvas) {
     const canvasSize = canvas.getSize();
     const { x, y } = this.getPosition();
 
@@ -30,7 +30,7 @@ export class Shot extends PhysicBase implements IPhysicEntity {
     }
 
     if (!this.isDestroyed) {
-      this.setPosition(x + 20, y);
+      this.setPosition(x + 10, y);
     }
   }
 }

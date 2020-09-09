@@ -1,6 +1,4 @@
 import React, { useRef, memo } from 'react';
-import reduce from 'lodash/reduce';
-import forEach from 'lodash/forEach';
 
 import { Events } from 'Service/Events';
 
@@ -37,24 +35,22 @@ export const GameEngine: React.FC<IGameEngine> = memo(({ className, size, system
       events.dispatch(event);
     };
 
-    entities.current = reduce(
-      systems,
-      (acc: IEntity[], system: System) =>
-        system(acc, {
-          canvas,
-          time,
-          touches: touches.get(),
-          events: events.get(),
-          dispatch: dispatchEvent,
-        }),
-      entities.current
-    );
+    for (const system of systems) {
+      entities.current = system(entities.current, {
+        canvas,
+        time,
+        touches: touches.get(),
+        events: events.get(),
+        dispatch: dispatchEvent,
+      });
+    }
 
-    forEach(entities.current, (entity: IEntity) => {
+    for (const entity of entities.current) {
       ctx.save();
       entity.render(canvas);
+      entity.translate(canvas);
       ctx.restore();
-    });
+    }
 
     touches.reset();
     events.reset();

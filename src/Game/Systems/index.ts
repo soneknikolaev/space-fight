@@ -1,4 +1,4 @@
 export * from './TouchSystem';
-export * from './ShotSystem';
+export * from './BulletSystem';
 export * from './DestroySystem';
 export * from './EnemySystem';

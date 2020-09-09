@@ -12,16 +12,13 @@ export class Background extends Base implements IEntityBase {
 
   private stars?: Star[];
 
-  constructor(x: number, y: number, width: number, height: number) {
+  constructor(x: number, y: number) {
     super(x, y, false);
-
-    this.setSize(width, height);
   }
 
   render(canvas: Canvas) {
     const ctx = canvas.getContext();
     const { width, height } = this.getSize();
-    this.translate();
 
     ctx.fillStyle = '#000';
     ctx.translate(this.getPosition().x, 0);
@@ -29,7 +26,7 @@ export class Background extends Base implements IEntityBase {
     this.renderStars(ctx);
   }
 
-  private translate() {
+  translate() {
     const { x, y } = this.getPosition();
     const { width } = this.getSize();
     const isFinished = x <= -width;

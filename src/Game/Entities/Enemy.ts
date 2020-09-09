@@ -11,7 +11,6 @@ export class Enemy extends PhysicBase implements IPhysicEntity {
   }
 
   render(canvas: Canvas) {
-    this.translate();
     const ctx = canvas.getContext();
     const { x, y } = this.getPosition();
     const { width, height } = this.getSize();
@@ -19,7 +18,7 @@ export class Enemy extends PhysicBase implements IPhysicEntity {
     ctx.drawImage(enemy, x, y, width, height);
   }
 
-  private translate() {
+  translate() {
     const { x, y } = this.getPosition();
 
     x > 0 ? this.setPosition(x - 5, y) : this.destroy();

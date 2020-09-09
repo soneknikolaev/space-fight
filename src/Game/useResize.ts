@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 
 export const getWindowSize = (): Size => ({
   width: window.innerWidth,
@@ -6,10 +6,8 @@ export const getWindowSize = (): Size => ({
 });
 
 export const useResize = (cb: () => void) => {
-  const onResize = useCallback(cb, []);
-
   useEffect(() => {
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    window.addEventListener('resize', cb);
+    return () => window.removeEventListener('resize', cb);
   }, []);
 };
