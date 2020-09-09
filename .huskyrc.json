@@ -1,0 +1,7 @@
+{
+    "hooks": {
+        "post-commit": "npm run release",
+        "pre-commit": "lint-staged",
+        "prepare-commit-msg": "exec < /dev/tty && ./node_modules/.bin/git-cz --hook || true"
+    }
+}

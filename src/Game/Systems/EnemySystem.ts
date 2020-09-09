@@ -1,5 +1,6 @@
 import { Enemy } from '../Entities';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let steps = 0;
 
 export const EnemySystem = (entities: IEntity[], params: SystemParams) => {
