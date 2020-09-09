@@ -1,6 +1,6 @@
 {
   "name": "space-fight",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "config": {
     "commitizen": {
@@ -23,7 +23,6 @@
   },
   "devDependencies": {
     "@semantic-release/gitlab": "^6.0.4",
-    "@semantic-release/npm": "^7.0.6",
     "@types/howler": "^2.2.1",
     "@types/jest": "^26.0.10",
     "@types/lodash": "^4.14.161",
