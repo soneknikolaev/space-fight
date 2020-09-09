@@ -1,2 +1,2 @@
-export * from './LogicException'
-export * from './RuntimeException'
+export * from './LogicException';
+export * from './RuntimeException';
