@@ -6,7 +6,7 @@ import { Bullet } from '../Entities';
 export const BulletSystem = (entities: IEntity[], params: SystemParams) => {
   forEach(params.events, (event: GameEvent) => {
     if (event.type === 'shot') {
-      const { provider } = event;
+      const { provider } = event as ShotGameEvent;
       const { width, height } = provider.getSize();
       const { x, y } = provider.getPosition();
 

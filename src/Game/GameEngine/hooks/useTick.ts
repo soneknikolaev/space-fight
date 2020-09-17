@@ -1,16 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const fps = 33;
 
 export function useTick(cb: () => void) {
-  let lastTick = performance.now();
+  const lastTick = useRef(performance.now());
 
   useEffect(() => {
     const timer = (): number => {
       const nowTime = performance.now();
 
-      if (nowTime - lastTick >= fps) {
-        lastTick = performance.now();
+      if (nowTime - lastTick.current >= fps) {
+        lastTick.current = performance.now();
         cb();
       }
 
@@ -22,5 +22,5 @@ export function useTick(cb: () => void) {
     return () => {
       cancelAnimationFrame(animationFrame);
     };
-  }, []);
+  }, [cb]);
 }

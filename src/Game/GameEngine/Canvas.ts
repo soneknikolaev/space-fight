@@ -32,10 +32,6 @@ export const Canvas = (ref: React.RefObject<HTMLCanvasElement>) => {
       return { width, height };
     },
 
-    getRef(): React.RefObject<HTMLCanvasElement> {
-      return ref;
-    },
-
     setContextStyles(styles: GraphCanvasContextStyle): void {
       Object.assign(this.getContext(), styles);
     },

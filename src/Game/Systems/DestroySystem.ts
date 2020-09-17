@@ -2,7 +2,7 @@ import concat from 'lodash/concat';
 import filter from 'lodash/filter';
 import forEach from 'lodash/forEach';
 
-import { PhysicBase, Enemy } from '../Entities';
+import { PhysicBase, Enemy, Bullet } from '../Entities';
 
 import { getCollision } from '../GameEngine';
 
@@ -20,8 +20,8 @@ export const DestroySystem = (entities: IEntity[], params: SystemParams) => {
 
     let provider;
 
-    if (bodyA instanceof Enemy) provider = bodyB;
-    if (bodyB instanceof Enemy) provider = bodyA;
+    if (bodyA instanceof Enemy && bodyB instanceof Bullet) provider = bodyB;
+    if (bodyB instanceof Enemy && bodyA instanceof Bullet) provider = bodyA;
 
     if (provider) {
       params.dispatch({

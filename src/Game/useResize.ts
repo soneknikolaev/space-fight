@@ -9,5 +9,5 @@ export const useResize = (cb: () => void) => {
   useEffect(() => {
     window.addEventListener('resize', cb);
     return () => window.removeEventListener('resize', cb);
-  }, []);
+  }, [cb]);
 };

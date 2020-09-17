@@ -20,14 +20,8 @@ type Canvas = {
   get(): HTMLCanvasElement;
   getContext(): CanvasRenderingContext2D;
   getSize(): Size;
-  getRef(): React.RefObject<HTMLCanvasElement>;
   setContextStyles(styles: GraphCanvasContextStyle): void;
 };
-
-interface CanvasTouchEvent extends GameEventBase {
-  canvas: Canvas;
-  position: Coordinate;
-}
 
 type CollisionPair = {
   bodyA: PhysicEntity;
@@ -36,4 +30,13 @@ type CollisionPair = {
 
 type Collision = {
   pairs: CollisionPair[];
+};
+
+type DispatchEvent = (event: GameEvent) => void;
+
+type GameLevel = 'EASY' | 'MEDIUM' | 'HARD' | 'EXTREME';
+
+type LevelConfig = {
+  speed: number;
+  procent: number;
 };

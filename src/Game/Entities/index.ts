@@ -5,7 +5,7 @@ export * from './Base';
 export * from './Background';
 export * from './Hero';
 export * from './Bullet';
-export * from './Enemy';
+export * from './Enemies';
 
 export default (size: Size): IEntity[] => {
   const { width, height } = size;

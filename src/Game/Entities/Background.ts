@@ -8,7 +8,7 @@ type Star = Coordinate & { color: string; size: number };
 const colors = ['#0000FF', '#FFFF00', '#FFA500', '#FF0000', '#a87bff', '#a6a8ff', '#ffa371'];
 
 export class Background extends Base implements IEntityBase {
-  readonly translateOn = 10;
+  readonly translateOn = 4;
 
   private stars?: Star[];
 

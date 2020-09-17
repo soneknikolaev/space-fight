@@ -1,6 +1,4 @@
-import React, { useRef, memo } from 'react';
-
-import { Events } from 'Service/Events';
+import React, { useRef, memo, useImperativeHandle, forwardRef } from 'react';
 
 import { Canvas } from './Canvas';
 import { useTick } from './hooks';
@@ -13,59 +11,66 @@ export interface IGameEngine {
   onEvent?: (event: GameEvent) => void;
 }
 
-export const GameEngine: React.FC<IGameEngine> = memo(({ className, size, systems, onEvent, ...rest }) => {
-  const ref = useRef(null);
-  const canvas = Canvas(ref);
-  const entities = useRef(rest.entities);
-  const touches = Events<CanvasTouchEvent>();
-  const events = Events<GameEvent>();
+export type GameEngineRef = React.Ref<{ dispatchEvent: DispatchEvent }>;
 
-  useTick(() => {
-    if (!ref.current) return;
-
-    const ctx = canvas.getContext();
-    const { width, height } = canvas.getSize();
-
-    ctx.clearRect(0, 0, width, height);
-
-    const time = performance.now();
+export const GameEngine = memo(
+  forwardRef((props: IGameEngine, ref: GameEngineRef) => {
+    const { className, size, systems, onEvent } = props;
+    const canvasRef = useRef(null);
+    const entities = useRef(props.entities);
+    const touches = useRef<CanvasTouchEvent[]>([]);
+    const events = useRef<GameEvent[]>([]);
 
     const dispatchEvent = (event: GameEvent) => {
       onEvent && onEvent(event);
-      events.dispatch(event);
+      events.current.push(event);
     };
 
-    for (const system of systems) {
-      entities.current = system(entities.current, {
-        canvas,
-        time,
-        touches: touches.get(),
-        events: events.get(),
-        dispatch: dispatchEvent,
-      });
-    }
+    useImperativeHandle(ref, () => ({
+      dispatchEvent,
+    }));
 
-    for (const entity of entities.current) {
-      ctx.save();
-      entity.render(canvas);
-      entity.translate(canvas);
-      ctx.restore();
-    }
+    useTick(() => {
+      if (!canvasRef.current) return;
 
-    touches.reset();
-    events.reset();
-  });
+      const canvas = Canvas(canvasRef);
+      const ctx = canvas.getContext();
+      const { width, height } = canvas.getSize();
+      const time = performance.now();
+      ctx.clearRect(0, 0, width, height);
 
-  const onTouch = (e: React.MouseEvent) => {
-    touches.dispatch({
-      canvas,
-      type: e.type,
-      position: {
-        x: e.clientX,
-        y: e.clientY,
-      },
+      for (const system of systems) {
+        entities.current = system(entities.current, {
+          canvas,
+          time,
+          touches: touches.current,
+          events: events.current,
+          dispatch: dispatchEvent,
+        });
+      }
+
+      for (const entity of entities.current) {
+        ctx.save();
+        entity.render(canvas);
+        entity.translate(canvas);
+        ctx.restore();
+      }
+
+      touches.current = [];
+      events.current = [];
     });
-  };
 
-  return <canvas className={className} ref={ref} {...size} onMouseMove={onTouch} onClick={onTouch} />;
-});
+    const onTouch = (e: React.MouseEvent) => {
+      touches.current.push({
+        canvas: Canvas(canvasRef),
+        type: e.type,
+        position: {
+          x: e.clientX,
+          y: e.clientY,
+        },
+      });
+    };
+
+    return <canvas className={className} ref={canvasRef} {...size} onMouseMove={onTouch} onClick={onTouch} />;
+  })
+);

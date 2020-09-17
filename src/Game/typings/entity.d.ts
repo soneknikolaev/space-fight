@@ -15,7 +15,7 @@ interface IStaticBase {
 }
 
 interface IPhysicBase extends IStaticBase {
-  private destroy(): void;
+  destroy(): void;
   isDestroyed: boolean;
 }
 
@@ -24,3 +24,5 @@ interface IPhysicEntity extends IPhysicBase, IEntityBase {}
 interface IStaticEntity extends IStaticBase, IEntityBase {}
 
 type IEntity = IPhysicEntity | IStaticEntity;
+
+type ISpace = FixedLengthArray<[number, number]>;
