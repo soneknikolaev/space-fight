@@ -20,7 +20,7 @@ export class Timer {
 
     if (!this.running) return;
 
-    if (this.loopId && nowTime - this.lastTick >= fps) {
+    if (nowTime - this.lastTick >= fps) {
       this.lastTick = performance.now();
       this.subscribers.forEach((cb) => cb());
     }
@@ -29,16 +29,16 @@ export class Timer {
   }
 
   start() {
-    if (!this.loopId) {
+    if (!this.running) {
       this.running = true;
       this.loop();
     }
   }
 
   stop() {
-    if (this.loopId) {
+    if (this.running) {
       this.running = false;
-      cancelAnimationFrame(this.loopId);
+      this.loopId && cancelAnimationFrame(this.loopId);
       this.loopId = null;
     }
   }

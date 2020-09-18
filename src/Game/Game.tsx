@@ -4,6 +4,8 @@ import { GameEngine } from './GameEngine';
 import initEntities from './Entities';
 import { DestroySystem, TouchSystem, EnemySystem, BulletSystem, StatusSystem } from './Systems';
 
+import { Result } from './Result';
+
 import styles from './Game.module.scss';
 
 const getWindowSize = (): Size => ({
@@ -17,6 +19,7 @@ interface IState {
   size: Size;
   level: GameLevel;
   entities: IEntity[];
+  status: 'game-running' | 'game-over';
 }
 
 export class Game extends React.PureComponent<IProps, IState> {
@@ -32,6 +35,7 @@ export class Game extends React.PureComponent<IProps, IState> {
       size: getWindowSize(),
       level: 'EASY',
       entities: [],
+      status: 'game-running',
     };
   }
 
@@ -60,7 +64,7 @@ export class Game extends React.PureComponent<IProps, IState> {
   }
 
   render() {
-    const { entities, size, score } = this.state;
+    const { entities, size, score, status } = this.state;
     return (
       <div className={styles.container}>
         <GameEngine
@@ -72,6 +76,7 @@ export class Game extends React.PureComponent<IProps, IState> {
           onEvent={this.onEvent}
         />
         <div className={styles.score}>{score}</div>
+        {status === 'game-over' ? <Result score={score} start={this.start} /> : null}
       </div>
     );
   }
@@ -88,7 +93,7 @@ export class Game extends React.PureComponent<IProps, IState> {
     }
 
     if (event.type === 'game-over') {
-      this.ref.current?.stop();
+      this.onGameOver();
     }
   };
 
@@ -119,6 +124,26 @@ export class Game extends React.PureComponent<IProps, IState> {
         level,
         score: newScore,
       };
+    });
+  };
+
+  private start = () => {
+    this.setState(
+      ({ size }) => ({
+        entities: initEntities(size),
+        status: 'game-running',
+      }),
+      () => {
+        this.ref.current?.start();
+      }
+    );
+  };
+
+  private onGameOver = () => {
+    this.ref.current?.stop();
+
+    this.setState({
+      status: 'game-over',
     });
   };
 }
