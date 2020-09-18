@@ -5,15 +5,15 @@ const LEVELS: {
 } = {
   EASY: {
     speed: 0.75,
-    procent: 0.4,
+    procent: 0.25,
   },
   MEDIUM: {
     speed: 1,
-    procent: 0.6,
+    procent: 0.5,
   },
   HARD: {
     speed: 1.25,
-    procent: 0.8,
+    procent: 0.75,
   },
   EXTREME: {
     speed: 1.5,

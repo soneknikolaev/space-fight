@@ -132,6 +132,7 @@ export class Game extends React.PureComponent<IProps, IState> {
       ({ size }) => ({
         entities: initEntities(size),
         status: 'game-running',
+        score: 0,
       }),
       () => {
         this.ref.current?.start();

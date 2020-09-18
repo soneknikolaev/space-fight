@@ -5,16 +5,20 @@ export class Enemy extends PhysicBase implements IPhysicEntity {
 
   private readonly img: HTMLImageElement;
 
+  public readonly isShooter: boolean;
+
   constructor(x: number, y: number, params: EnemyParams) {
     super(x, y);
     const {
       img,
       size: { width, height },
       speed,
+      single,
     } = params;
 
     this.img = img;
     this.translateOn = speed;
+    this.isShooter = single;
     this.setSize(width, height);
   }
 
