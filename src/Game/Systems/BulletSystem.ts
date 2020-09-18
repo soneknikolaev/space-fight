@@ -4,7 +4,7 @@ import { Sound } from 'Service/SoundPlayer';
 import { Bullet } from '../Entities';
 
 export const BulletSystem = (entities: IEntity[], params: SystemParams) => {
-  forEach(params.events, (event: GameEvent) => {
+  forEach(params.events, (event: IGameEvent) => {
     if (event.type === 'shot') {
       const { provider } = event as ShotGameEvent;
       const { width, height } = provider.getSize();

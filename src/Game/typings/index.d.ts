@@ -32,7 +32,7 @@ type Collision = {
   pairs: CollisionPair[];
 };
 
-type DispatchEvent = (event: GameEvent) => void;
+type DispatchEvent = (event: IGameEvent) => void;
 
 type GameLevel = 'EASY' | 'MEDIUM' | 'HARD' | 'EXTREME';
 

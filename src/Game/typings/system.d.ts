@@ -1,8 +1,8 @@
 type SystemParams = {
   time: number;
   touches: CanvasTouchEvent[];
-  events: GameEvent[];
-  dispatch: (event: GameEvent) => void;
+  events: IGameEvent[];
+  dispatch: (event: IGameEvent) => void;
   canvas: Canvas;
 };
 

@@ -17,4 +17,4 @@ type LevelGameEvent = {
   level: GameLevel;
 } & Event;
 
-type GameEvent = ShotGameEvent | LevelGameEvent | GameEvent;
+type IGameEvent = ShotGameEvent | LevelGameEvent | EventBase;

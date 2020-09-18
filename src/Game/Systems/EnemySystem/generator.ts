@@ -43,6 +43,5 @@ export const generate = (canvas: Canvas, spaces: ISpace[], config: LevelConfig):
 
   if (!shape) return [];
 
-  console.log(p0, p1, canvas.getSize().height);
   return shape.build(new Enemy(canvas.getSize().width, random(p0, p1 - shape.getHeight()), enemyParams));
 };

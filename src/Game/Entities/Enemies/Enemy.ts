@@ -5,10 +5,6 @@ export class Enemy extends PhysicBase implements IPhysicEntity {
 
   private readonly img: HTMLImageElement;
 
-  private axis: number;
-
-  private shift: number = 0;
-
   constructor(x: number, y: number, params: EnemyParams) {
     super(x, y);
     const {
@@ -18,7 +14,6 @@ export class Enemy extends PhysicBase implements IPhysicEntity {
     } = params;
 
     this.img = img;
-    this.axis = y;
     this.translateOn = speed;
     this.setSize(width, height);
   }
@@ -32,7 +27,6 @@ export class Enemy extends PhysicBase implements IPhysicEntity {
   }
 
   translate() {
-    // this.animate();
     const { x, y } = this.getPosition();
 
     if (x - this.getSize().width > 0) {
@@ -43,42 +37,11 @@ export class Enemy extends PhysicBase implements IPhysicEntity {
     }
   }
 
-  setShift(shift: number) {
-    this.shift = shift;
-  }
-
-  setAxis(axis: number) {
-    this.axis = axis;
-  }
-
-  getAxis(): number {
-    return this.axis;
-  }
-
-  private animate() {
-    const { x, y } = this.getPosition();
-    const isIncrement = this.shift > 0;
-    let finalY = this.axis + this.shift;
-
-    if ((isIncrement && y >= finalY) || (!isIncrement && y <= finalY)) {
-      this.setShift(-this.shift);
-      finalY = this.axis + this.shift;
-    }
-
-    const delta = finalY - y;
-    if (delta === 0) return;
-
-    let step = Math.min(this.translateOn / 2, Math.abs(delta));
-    step = delta > 0 ? step : -step;
-
-    this.setPosition(x, y + step);
-  }
-
   get space(): ISpace {
     const { height } = this.getSize();
-    const shift = Math.abs(this.shift);
-    const padding = 2;
+    const { y } = this.getPosition();
+    const padding = 5;
 
-    return [this.axis - shift - padding, this.axis + shift + height + padding];
+    return [y - padding, y + height + padding];
   }
 }

@@ -9,7 +9,8 @@ let config = LevelConfig('EASY');
 export const EnemySystem = (entities: IEntity[], { events, canvas }: SystemParams) => {
   for (const event of events) {
     if (event.type === 'level') {
-      config = LevelConfig(event.level);
+      const { level } = event as LevelGameEvent;
+      config = LevelConfig(level);
     }
   }
 

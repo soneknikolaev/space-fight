@@ -31,9 +31,7 @@ export const shapes = {
         const newEnemy = clone(enemy);
         const { x, y } = enemy.getPosition();
         const { height } = newEnemy.getSize();
-        const axis = y + (height + gap) * i;
-        newEnemy.setPosition(x, axis);
-        newEnemy.setAxis(axis);
+        newEnemy.setPosition(x, y + (height + gap) * i);
         enemies.push(newEnemy);
       }
       return enemies;
@@ -63,9 +61,7 @@ export const shapes = {
             const newEnemy = clone(enemy);
             const { x, y } = newEnemy.getPosition();
             const { height, width } = newEnemy.getSize();
-            const axis = y + (height + gap) * j + padding;
-            newEnemy.setPosition(x + (width + gap) * i, axis);
-            newEnemy.setAxis(axis);
+            newEnemy.setPosition(x + (width + gap) * i, y + (height + gap) * j + padding);
             enemies.push(newEnemy);
           }
         }

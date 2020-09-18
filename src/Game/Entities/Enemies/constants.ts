@@ -37,7 +37,7 @@ export const enemies: EnemyParams[] = [
       height: 30,
     },
     speed: 10,
-    single: false,
+    single: true,
   },
 ];
 

@@ -27,7 +27,7 @@ export const DestroySystem = (entities: IEntity[], params: SystemParams) => {
       params.dispatch({
         provider,
         type: 'score',
-      });
+      } as IGameEvent);
     }
   });
 
