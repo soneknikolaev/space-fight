@@ -1,7 +1,7 @@
 type EnemyParams = {
   img: HTMLImageElement;
   size: Size;
-  speed: number;
+  translateOn: number;
   single: boolean;
 };
 

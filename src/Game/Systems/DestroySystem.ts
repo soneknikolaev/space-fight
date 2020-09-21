@@ -1,4 +1,3 @@
-import concat from 'lodash/concat';
 import filter from 'lodash/filter';
 import forEach from 'lodash/forEach';
 
@@ -31,8 +30,5 @@ export const DestroySystem = (entities: IEntity[], params: SystemParams) => {
     }
   });
 
-  return concat(
-    staticEntities,
-    filter(physicEntities, (entity: IPhysicEntity) => !entity.isDestroyed)
-  );
+  return [...staticEntities, ...filter(physicEntities, (entity: IPhysicEntity) => !entity.isDestroyed)];
 };

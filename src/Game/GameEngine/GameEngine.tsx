@@ -107,15 +107,6 @@ export class GameEngine extends React.PureComponent<IGameEngine, IState> {
     this.events.push(event);
   };
 
-  reset = () => {
-    setTimeout(() => {
-      this.entities = this.props.entities;
-      this.events = [];
-      this.touches = [];
-      this.draw();
-    });
-  };
-
   start = () => {
     this.timer.start();
     this.dispatchEvent({ type: 'started' });

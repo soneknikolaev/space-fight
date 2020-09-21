@@ -1,11 +1,24 @@
-import concat from 'lodash/concat';
 import reduce from 'lodash/reduce';
 import sortBy from 'lodash/sortBy';
+import forEach from 'lodash/forEach';
 import find from 'lodash/find';
 
 import { Enemy, minEnemySize } from '../../Entities';
 
 export const space = {
+  getFreeSpace(entities: IEntity[], canvas: Canvas): ISpace | undefined {
+    const spaces = this.getWithoutEnemies(entities, canvas);
+    let space: ISpace | undefined;
+
+    forEach(spaces, (newSpace: ISpace) => {
+      if (!space || space[1] - space[0] < newSpace[1] - newSpace[0]) {
+        space = newSpace;
+      }
+    });
+
+    return space;
+  },
+
   getBusyProcent(entities: IEntity[], canvas: Canvas): number {
     const spaceWithEnemies = this.getWithEnemies(entities);
     const { height } = canvas.getSize();
@@ -57,7 +70,7 @@ export const space = {
           spaces.push([p1, height]);
         }
 
-        return concat(acc, spaces);
+        return [...acc, ...spaces];
       },
       []
     );

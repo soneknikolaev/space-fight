@@ -7,22 +7,31 @@ const getRandomElement = <Element extends any>(array: Element[]): Element => {
   return array[random(0, array.length - 1)];
 };
 
-export const generate = (canvas: Canvas, spaces: ISpace[], config: LevelConfig): Enemy[] => {
+const getParams = ([p0, p1]: ISpace, config: LevelConfig) => {
+  const height = p1 - p0;
+  const params = getRandomElement(filter(enemies, (enemy: EnemyParams) => height >= enemy.size.height));
+
+  if (params) {
+    return {
+      ...params,
+      speed: params.translateOn * config.speed,
+    };
+  }
+};
+
+export const generate = (canvas: Canvas, [p0, p1]: ISpace, config: LevelConfig): Enemy[] => {
   if (Math.random() >= 0.2) return [];
 
-  const [p0, p1] = getRandomElement(spaces);
   const height = p1 - p0;
-  let enemyParams = getRandomElement(filter(enemies, (enemy: EnemyParams) => height >= enemy.size.height));
+  const params = getParams([p0, p1], config);
 
-  if (!enemyParams) return [];
+  if (!params) return [];
 
-  enemyParams = {
-    ...enemyParams,
-    speed: enemyParams.speed * config.speed,
-  };
+  const x = canvas.getSize().width;
+  const y = random(p0, p1 - params.size.height);
 
-  if (enemyParams.single) {
-    return [new Enemy(canvas.getSize().width, random(p0, p1 - enemyParams.size.height), enemyParams)];
+  if (params.single) {
+    return [new Enemy(x, y, params)];
   }
 
   const count = random(1, 6);
@@ -30,7 +39,7 @@ export const generate = (canvas: Canvas, spaces: ISpace[], config: LevelConfig):
     reduce(
       shapes,
       (acc: ShapeMethods[], shape) => {
-        const shapeObj = shape(enemyParams, count);
+        const shapeObj = shape(params, count);
         if (shapeObj.getHeight() <= height) {
           acc.push(shapeObj);
         }
@@ -41,7 +50,9 @@ export const generate = (canvas: Canvas, spaces: ISpace[], config: LevelConfig):
     )
   );
 
-  if (!shape) return [];
+  if (!shape) {
+    return [new Enemy(x, y, params)];
+  }
 
-  return shape.build(new Enemy(canvas.getSize().width, random(p0, p1 - shape.getHeight()), enemyParams));
+  return shape.build(new Enemy(x, random(p0, p1 - shape.getHeight()), params));
 };

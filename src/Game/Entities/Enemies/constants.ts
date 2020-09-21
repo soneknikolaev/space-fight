@@ -9,7 +9,7 @@ export const enemies: EnemyParams[] = [
       width: 20,
       height: 30,
     },
-    speed: 10,
+    translateOn: 10,
     single: false,
   },
   {
@@ -18,7 +18,7 @@ export const enemies: EnemyParams[] = [
       width: 30,
       height: 20,
     },
-    speed: 15,
+    translateOn: 15,
     single: false,
   },
   {
@@ -27,7 +27,7 @@ export const enemies: EnemyParams[] = [
       width: 30,
       height: 20,
     },
-    speed: 15,
+    translateOn: 15,
     single: true,
   },
   {
@@ -36,7 +36,7 @@ export const enemies: EnemyParams[] = [
       width: 20,
       height: 30,
     },
-    speed: 10,
+    translateOn: 10,
     single: true,
   },
 ];

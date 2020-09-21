@@ -1,5 +1,3 @@
-import concat from 'lodash/concat';
-
 import { LevelConfig } from './level';
 import { space } from './spaces';
 import { generate } from './generator';
@@ -17,9 +15,10 @@ export const EnemySystem = (entities: IEntity[], { events, canvas }: SystemParam
   const busyProcent = space.getBusyProcent(entities, canvas);
 
   if (busyProcent < config.procent) {
-    const spaces = space.getWithoutEnemies(entities, canvas);
-
-    return concat(entities, generate(canvas, spaces, config));
+    const newSpace = space.getFreeSpace(entities, canvas);
+    if (newSpace) {
+      return [...entities, ...generate(canvas, newSpace, config)];
+    }
   }
 
   return entities;

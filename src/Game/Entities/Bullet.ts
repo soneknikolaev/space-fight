@@ -6,8 +6,8 @@ export class Bullet extends PhysicBase implements IPhysicEntity {
 
   readonly translateOn: number;
 
-  constructor(x: number, y: number, shooter: IPhysicEntity, direction: Direction) {
-    super(x, y);
+  constructor(shooter: IPhysicEntity, direction: Direction) {
+    super(0, 0);
     this.shooter = shooter;
     this.translateOn = direction === 'right' ? 10 : -10;
     this.setSize(10, 2);
