@@ -3,10 +3,11 @@ import reduce from 'lodash/reduce';
 
 import { Enemy, IEnemy } from '../Enemy';
 
-export const triangle = (params: EnemyParams, maxHeight: number): ShapeMethods => {
-  const gap = random(10, params.size.height);
+export const triangle = (params: EnemyParams, maxWidth: number): ShapeMethods => {
+  const { width } = params.size;
+  const gap = random(10, width);
   const minCount = 3;
-  const maxCount = Math.min(9, Math.floor(maxHeight / (params.size.height + gap)));
+  const maxCount = Math.min(9, Math.floor(maxWidth / (width + gap)));
   const count = random(minCount, maxCount);
   const lines: number[] = [];
   let sum = 0;
@@ -21,19 +22,19 @@ export const triangle = (params: EnemyParams, maxHeight: number): ShapeMethods =
   const max = Math.max(...lines);
 
   return {
-    getHeight: (): number => max * (params.size.height + gap),
+    getWidth: (): number => max * (width + gap),
     getMaxCount: (): number => (maxCount >= minCount ? maxCount : 0),
     build: (x0: number, y0: number): IEnemy[] => {
       const enemies = [];
       for (let i = 0; i <= lines.length; i += 1) {
-        const line = lines[i];
+        const line = lines[lines.length - 1 - i];
         for (let j = 0; j <= line; j += 1) {
           const enemy = new Enemy(x0, y0, params);
           const delta = max - line;
-          const padding = ((gap + enemy.getSize().height) * delta) / 2;
+          const padding = ((gap + enemy.getSize().width) * delta) / 2;
           const { x, y } = enemy.getPosition();
           const { height, width } = enemy.getSize();
-          enemy.setPosition(x + (width + gap) * i, y + (height + gap) * j + padding);
+          enemy.setPosition(x + (width + gap) * j + padding, y + (height + gap) * i - height * (max + gap));
           enemies.push(enemy);
         }
       }

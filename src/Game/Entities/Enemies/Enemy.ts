@@ -27,23 +27,22 @@ export class Enemy extends PhysicBase implements IEnemy {
     ctx.drawImage(this.params.img, x, y, width, height);
   }
 
-  translate() {
+  translate(canvas: Canvas) {
     const { x, y } = this.getPosition();
-
-    if (x - this.getSize().width > 0) {
-      const newX = x - this.params.translateOn;
-      this.setPosition(newX, y);
+    if (y < canvas.getSize().height) {
+      const newY = y + this.params.translateOn;
+      this.setPosition(x, newY);
     } else {
       this.destroy();
     }
   }
 
   get space(): ISpace {
-    const { height } = this.getSize();
-    const { y } = this.getPosition();
+    const { width } = this.getSize();
+    const { x } = this.getPosition();
     const padding = 5;
 
-    return [y - padding, y + height + padding];
+    return [x - padding, x + width + padding];
   }
 
   get canShot(): boolean {

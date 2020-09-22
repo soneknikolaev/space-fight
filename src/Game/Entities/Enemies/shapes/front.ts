@@ -2,13 +2,14 @@ import random from 'lodash/random';
 
 import { Enemy, IEnemy } from '../Enemy';
 
-export const front = (params: EnemyParams, maxHeight: number): ShapeMethods => {
-  const gap = random(10, params.size.height);
+export const front = (params: EnemyParams, maxWidth: number): ShapeMethods => {
+  const { width } = params.size;
+  const gap = random(10, width);
   const minCount = 2;
-  const maxCount = Math.min(3, Math.floor(maxHeight / (params.size.height + gap)));
+  const maxCount = Math.min(3, Math.floor(maxWidth / (width + gap)));
   const count = random(minCount, maxCount);
   return {
-    getHeight: (): number => count * (params.size.height + gap),
+    getWidth: (): number => count * (width + gap),
     getMaxCount: (): number => (maxCount >= minCount ? maxCount : 0),
     build: (x0: number, y0: number): IEnemy[] => {
       const enemies = [];
@@ -16,8 +17,8 @@ export const front = (params: EnemyParams, maxHeight: number): ShapeMethods => {
       for (let i = 0; i < count; i += 1) {
         const enemy = new Enemy(x0, y0, params);
         const { x, y } = enemy.getPosition();
-        const { height } = enemy.getSize();
-        enemy.setPosition(x, y + (height + gap) * i);
+        const { width, height } = enemy.getSize();
+        enemy.setPosition(x + (width + gap) * i, y - height);
         enemies.push(enemy);
       }
       return enemies;

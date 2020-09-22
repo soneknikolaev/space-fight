@@ -5,7 +5,7 @@ type EnemyParams = {
 };
 
 type ShapeMethods = {
-  getHeight(): number;
+  getWidth(): number;
   getMaxCount(): number;
   build(x: number, y: number): Enemy[];
 };

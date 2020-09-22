@@ -6,9 +6,8 @@
   flex-direction: column;
   align-items: center;
   margin: auto;
-  background-color: #800080;
+  background-color: #fcfcfc;
   border-radius: 4px;
-  border: 2px solid #9027b3;
 
   button {
     border-radius: 5px;
@@ -17,7 +16,8 @@
     margin: auto;
     font-weight: 600;
     cursor: pointer;
-    background-color: #fff;
+    background-color: #3d3d3d;
+    color: #fcfcfc;
     &,
     &:active,
     &:focus {
@@ -33,7 +33,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #fff;
+  color: #3d3d3d;
 
   h4 {
     font-size: 40px;
@@ -42,6 +42,7 @@
   }
 
   span {
+    color: #7d7d7d;
     padding-top: 10px;
     font-size: 32px;
   }

@@ -9,7 +9,7 @@ export class Hero extends PhysicBase implements IPhysicEntity {
 
   constructor(x: number, y: number) {
     super(x, y);
-    this.setSize(40, 30);
+    this.setSize(30, 40);
     this.translateTo = this.getPosition();
   }
 

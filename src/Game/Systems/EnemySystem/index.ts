@@ -1,6 +1,6 @@
-import { LevelConfig } from './LevelConfig';
-import { space } from './spaces';
 import { generate } from './generator';
+import { spaces } from './spaces';
+import { LevelConfig } from './LevelConfig';
 
 let config = LevelConfig('EASY');
 
@@ -12,13 +12,10 @@ export const EnemySystem = (entities: IEntity[], { events, canvas }: SystemParam
     }
   }
 
-  const busyProcent = space.getBusyProcent(entities, canvas);
+  const busyProcent = spaces.getBusyProcent(entities, canvas);
 
   if (busyProcent < config.procent) {
-    const newSpace = space.getFreeSpace(entities, canvas);
-    if (newSpace) {
-      return [...entities, ...generate(canvas, newSpace, config)];
-    }
+    return [...entities, ...generate(entities, canvas, config)];
   }
 
   return entities;

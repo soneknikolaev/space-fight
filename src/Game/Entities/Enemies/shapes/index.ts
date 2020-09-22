@@ -13,13 +13,13 @@ import { IEnemy } from '../Enemy';
 const shapes = [column, front, triangle, wedge, inclined];
 
 export const createRandomShape = (edge: number, [p0, p1]: ISpace, params: EnemyParams): IEnemy[] => {
-  const height = p1 - p0;
+  const width = p1 - p0;
 
   const shape = sample(
     reduce(
       shapes,
       (acc: ShapeMethods[], shape) => {
-        const shapeObj = shape(params, height);
+        const shapeObj = shape(params, width);
         if (shapeObj.getMaxCount() > 0) {
           acc.push(shapeObj);
         }
@@ -34,5 +34,5 @@ export const createRandomShape = (edge: number, [p0, p1]: ISpace, params: EnemyP
     return [];
   }
 
-  return shape.build(edge, random(p0, p1 - shape.getHeight()));
+  return shape.build(random(p0, p1 - shape.getWidth()), edge);
 };

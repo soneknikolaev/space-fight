@@ -6,34 +6,34 @@ export const enemies: EnemyParams[] = [
   {
     img: getImage('enemy1.svg'),
     size: {
-      width: 20,
-      height: 30,
+      width: 40,
+      height: 20,
     },
-    translateOn: 10,
+    translateOn: 5,
   },
   {
     img: getImage('enemy2.svg'),
     size: {
-      width: 30,
-      height: 20,
+      width: 20,
+      height: 30,
     },
-    translateOn: 15,
+    translateOn: 8,
   },
   {
     img: getImage('enemy3.svg'),
     size: {
-      width: 30,
-      height: 20,
+      width: 25,
+      height: 30,
     },
-    translateOn: 15,
+    translateOn: 8,
   },
   {
     img: getImage('enemy4.svg'),
     size: {
-      width: 20,
-      height: 30,
+      width: 30,
+      height: 20,
     },
-    translateOn: 10,
+    translateOn: 5,
   },
 ];
 

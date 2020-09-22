@@ -59,8 +59,8 @@ export class GameEngine extends React.PureComponent<IGameEngine, IState> {
       canvas: Canvas(this.ref),
       type: e.type,
       position: {
-        x: e.clientX,
-        y: e.clientY,
+        x: e.nativeEvent.offsetX,
+        y: e.nativeEvent.offsetY,
       },
     });
   };

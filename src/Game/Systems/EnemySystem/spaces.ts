@@ -5,8 +5,8 @@ import find from 'lodash/find';
 
 import { Enemy, minEnemySize } from '../../Entities';
 
-export const space = {
-  getFreeSpace(entities: IEntity[], canvas: Canvas): ISpace | undefined {
+export const spaces = {
+  getFree(entities: IEntity[], canvas: Canvas): ISpace | undefined {
     const spaces = this.getWithoutEnemies(entities, canvas);
     let space: ISpace | undefined;
 
@@ -21,8 +21,8 @@ export const space = {
 
   getBusyProcent(entities: IEntity[], canvas: Canvas): number {
     const spaceWithEnemies = this.getWithEnemies(entities);
-    const { height } = canvas.getSize();
-    return reduce(spaceWithEnemies, (acc: number, [p0, p1]: ISpace) => p1 - p0 + acc, 0) / height;
+    const { width } = canvas.getSize();
+    return reduce(spaceWithEnemies, (acc: number, [p0, p1]: ISpace) => p1 - p0 + acc, 0) / width;
   },
 
   getWithEnemies(entities: IEntity[]): ISpace[] {
@@ -47,9 +47,9 @@ export const space = {
 
   getWithoutEnemies(entities: IEntity[], canvas: Canvas): ISpace[] {
     const spaceWithEnemies = this.getWithEnemies(entities);
-    const { height } = canvas.getSize();
+    const { width } = canvas.getSize();
 
-    if (spaceWithEnemies.length === 0) return [[0, height]];
+    if (spaceWithEnemies.length === 0) return [[0, width]];
 
     return reduce(
       spaceWithEnemies,
@@ -66,8 +66,8 @@ export const space = {
           spaces.push([p1, next[0]]);
         }
 
-        if (!next && height - p1 > 0) {
-          spaces.push([p1, height]);
+        if (!next && width - p1 > 0) {
+          spaces.push([p1, width]);
         }
 
         return [...acc, ...spaces];

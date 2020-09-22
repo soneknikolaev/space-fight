@@ -1,6 +1,6 @@
 import { PhysicBase } from './Base';
 
-type Direction = 'left' | 'right';
+type Direction = 'up' | 'down';
 export class Bullet extends PhysicBase implements IPhysicEntity {
   readonly shooter: IPhysicEntity;
 
@@ -9,8 +9,8 @@ export class Bullet extends PhysicBase implements IPhysicEntity {
   constructor(shooter: IPhysicEntity, direction: Direction) {
     super(0, 0);
     this.shooter = shooter;
-    this.translateOn = direction === 'right' ? 10 : -10;
-    this.setSize(10, 2);
+    this.translateOn = direction === 'down' ? 10 : -10;
+    this.setSize(2, 10);
     this.initPosition();
   }
 
@@ -20,7 +20,10 @@ export class Bullet extends PhysicBase implements IPhysicEntity {
 
     const { width, height } = this.getSize();
     const w = shooterSize.width + width;
+    const h = shooterSize.height + height;
     this.setPosition(x + (this.translateOn > 0 ? w : -w), y + shooterSize.height / 2 - height);
+
+    this.setPosition(x + shooterSize.width / 2 - width, y + (this.translateOn > 0 ? h : -h));
   }
 
   render(canvas: Canvas) {
@@ -39,12 +42,12 @@ export class Bullet extends PhysicBase implements IPhysicEntity {
     const canvasSize = canvas.getSize();
     const { x, y } = this.getPosition();
 
-    if (x < 0 || x > canvasSize.width) {
+    if (y < 0 || y > canvasSize.height) {
       this.destroy();
     }
 
     if (!this.isDestroyed) {
-      this.setPosition(x + this.translateOn, y);
+      this.setPosition(x, y + this.translateOn);
     }
   }
 }
