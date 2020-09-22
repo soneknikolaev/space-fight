@@ -10,7 +10,6 @@ export const enemies: EnemyParams[] = [
       height: 30,
     },
     translateOn: 10,
-    single: false,
   },
   {
     img: getImage('enemy2.svg'),
@@ -19,7 +18,6 @@ export const enemies: EnemyParams[] = [
       height: 20,
     },
     translateOn: 15,
-    single: false,
   },
   {
     img: getImage('enemy3.svg'),
@@ -28,7 +26,6 @@ export const enemies: EnemyParams[] = [
       height: 20,
     },
     translateOn: 15,
-    single: true,
   },
   {
     img: getImage('enemy4.svg'),
@@ -37,7 +34,6 @@ export const enemies: EnemyParams[] = [
       height: 30,
     },
     translateOn: 10,
-    single: true,
   },
 ];
 

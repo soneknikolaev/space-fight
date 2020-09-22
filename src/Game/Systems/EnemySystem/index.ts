@@ -1,4 +1,4 @@
-import { LevelConfig } from './level';
+import { LevelConfig } from './LevelConfig';
 import { space } from './spaces';
 import { generate } from './generator';
 

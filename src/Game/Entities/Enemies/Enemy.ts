@@ -1,6 +1,12 @@
 import { PhysicBase } from '../Base';
 
-export class Enemy extends PhysicBase implements IPhysicEntity {
+export interface IEnemy extends IPhysicEntity {
+  readonly params: EnemyParams;
+  space: ISpace;
+  canShot: boolean;
+}
+
+export class Enemy extends PhysicBase implements IEnemy {
   public readonly params: EnemyParams;
 
   private lastShot: number | undefined;
@@ -41,8 +47,6 @@ export class Enemy extends PhysicBase implements IPhysicEntity {
   }
 
   get canShot(): boolean {
-    if (!this.params.single) return false;
-
     const now = performance.now();
 
     if (typeof this.lastShot === 'undefined' || now - this.lastShot >= 500) {

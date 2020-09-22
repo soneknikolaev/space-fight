@@ -1,15 +1,12 @@
 import filter from 'lodash/filter';
-import reduce from 'lodash/reduce';
 import random from 'lodash/random';
-import { shapes, Enemy, enemies } from '../../Entities';
+import sample from 'lodash/sample';
 
-const getRandomElement = <Element extends any>(array: Element[]): Element => {
-  return array[random(0, array.length - 1)];
-};
+import { IEnemy, Enemy, enemies, createRandomShape } from '../../Entities';
 
 const getParams = ([p0, p1]: ISpace, config: LevelConfig) => {
   const height = p1 - p0;
-  const params = getRandomElement(filter(enemies, (enemy: EnemyParams) => height >= enemy.size.height));
+  const params = sample(filter(enemies, (enemy: EnemyParams) => height >= enemy.size.height));
 
   if (params) {
     return {
@@ -19,40 +16,18 @@ const getParams = ([p0, p1]: ISpace, config: LevelConfig) => {
   }
 };
 
-export const generate = (canvas: Canvas, [p0, p1]: ISpace, config: LevelConfig): Enemy[] => {
+export const generate = (canvas: Canvas, space: ISpace, config: LevelConfig): IEnemy[] => {
   if (Math.random() >= 0.2) return [];
 
-  const height = p1 - p0;
-  const params = getParams([p0, p1], config);
+  const params = getParams(space, config);
 
   if (!params) return [];
 
-  const x = canvas.getSize().width;
-  const y = random(p0, p1 - params.size.height);
+  const edge = canvas.getSize().width;
 
-  if (params.single) {
-    return [new Enemy(x, y, params)];
+  if (Math.random() >= 0.5) {
+    return [new Enemy(edge, random(space[0], space[1] - params.size.height), params)];
   }
 
-  const count = random(1, 6);
-  const shape = getRandomElement(
-    reduce(
-      shapes,
-      (acc: ShapeMethods[], shape) => {
-        const shapeObj = shape(params, count);
-        if (shapeObj.getHeight() <= height) {
-          acc.push(shapeObj);
-        }
-
-        return acc;
-      },
-      []
-    )
-  );
-
-  if (!shape) {
-    return [new Enemy(x, y, params)];
-  }
-
-  return shape.build(new Enemy(x, random(p0, p1 - shape.getHeight()), params));
+  return createRandomShape(edge, space, params);
 };
