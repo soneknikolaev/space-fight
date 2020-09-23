@@ -1,5 +1,6 @@
 Build:
     stage: build
+    image: node:10
     script:
         - pwd
         - set -e
