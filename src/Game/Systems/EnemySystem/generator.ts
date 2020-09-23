@@ -4,11 +4,11 @@ import sample from 'lodash/sample';
 
 import { spaces } from './spaces';
 
-import { IEnemy, Enemy, enemies, createRandomShape } from '../../Entities';
+import { IEnemy, Enemy, enemiesParams, createRandomShape } from '../../Entities';
 
 const getParams = ([p0, p1]: ISpace, config: LevelConfig) => {
   const width = p1 - p0;
-  const params = sample(filter(enemies, (enemy: EnemyParams) => width >= enemy.size.width));
+  const params = sample(filter(enemiesParams, (enemy: EnemyParams) => width >= enemy.size.width));
 
   if (params) {
     return {

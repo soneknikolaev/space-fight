@@ -3,8 +3,8 @@ import random from 'lodash/random';
 import { Enemy, IEnemy } from '../Enemy';
 
 export const column = (params: EnemyParams, maxWidth: number): ShapeMethods => {
-  const { width } = params.size;
-  const gap = random(10, width);
+  const { width, height } = params.size;
+  const gap = random(10, Math.round(height / 2));
   const minCount = 2;
   const maxCount = width < maxWidth ? 3 : 0;
   const count = random(minCount, maxCount);

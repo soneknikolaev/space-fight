@@ -8,7 +8,7 @@ type Star = Coordinate & { color: string; size: number };
 const colors = ['#0000FF', '#FFFF00', '#FFA500', '#FF0000', '#a87bff', '#a6a8ff', '#ffa371'];
 
 export class Background extends Base implements IEntityBase {
-  readonly translateOn = 5;
+  readonly translateOn = 3;
 
   private stars?: Star[];
 
@@ -20,7 +20,7 @@ export class Background extends Base implements IEntityBase {
     const ctx = canvas.getContext();
     const { width, height } = this.getSize();
 
-    ctx.fillStyle = '#1D1C1B';
+    ctx.fillStyle = '#050506';
     ctx.translate(0, this.getPosition().y - this.translateOn);
     ctx.fillRect(0, 0, width, height + 2 * this.translateOn);
     this.renderStars(ctx);

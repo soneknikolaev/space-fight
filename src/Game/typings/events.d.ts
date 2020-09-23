@@ -3,18 +3,12 @@ interface EventBase {
 }
 
 interface CanvasTouchEvent extends EventBase {
-  canvas: Canvas;
   position: Coordinate;
 }
-
-type ShotGameEvent = {
-  type: 'shot';
-  provider: Entity;
-} & EventBase;
 
 type LevelGameEvent = {
   type: 'level';
   level: GameLevel;
 } & Event;
 
-type IGameEvent = ShotGameEvent | LevelGameEvent | EventBase;
+type IGameEvent = LevelGameEvent | EventBase;

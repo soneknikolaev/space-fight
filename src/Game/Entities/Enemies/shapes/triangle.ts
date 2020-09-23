@@ -5,7 +5,7 @@ import { Enemy, IEnemy } from '../Enemy';
 
 export const triangle = (params: EnemyParams, maxWidth: number): ShapeMethods => {
   const { width } = params.size;
-  const gap = random(10, width);
+  const gap = random(10, Math.round(width / 2));
   const minCount = 3;
   const maxCount = Math.min(9, Math.floor(maxWidth / (width + gap)));
   const count = random(minCount, maxCount);

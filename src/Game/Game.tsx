@@ -1,10 +1,11 @@
 import React from 'react';
 
+import { Sound } from 'Service/SoundPlayer';
+
 import { withResize } from './withResize';
 import { GameEngine } from './GameEngine';
 import initEntities from './Entities';
 import { DestroySystem, TouchSystem, EnemySystem, BulletSystem, StatusSystem } from './Systems';
-
 import { Result } from './Result';
 
 import styles from './Game.module.scss';
@@ -16,7 +17,7 @@ interface IState {
   score: number;
   level: GameLevel;
   entities: IEntity[];
-  status: 'game-running' | 'game-over';
+  status: 'game-running' | 'game-over' | 'loading';
 }
 
 class GameBase extends React.PureComponent<IProps, IState> {
@@ -31,12 +32,12 @@ class GameBase extends React.PureComponent<IProps, IState> {
       score: 0,
       level: 'EASY',
       entities: [],
-      status: 'game-running',
+      status: 'loading',
     };
   }
 
   componentDidMount() {
-    this.init();
+    this.start();
   }
 
   componentDidUpdate(prevProps: IProps, prevState: IState) {
@@ -44,7 +45,7 @@ class GameBase extends React.PureComponent<IProps, IState> {
     const { size } = this.props;
 
     if (size !== prevProps.size) {
-      this.init();
+      this.start();
     }
 
     if (level !== prevState.level) {
@@ -60,27 +61,19 @@ class GameBase extends React.PureComponent<IProps, IState> {
     const { entities, score, status } = this.state;
     return (
       <div className={styles.container}>
-        <div className={styles.gameWrapper}>
-          <GameEngine
-            className={styles.game}
-            ref={this.ref}
-            entities={entities}
-            size={size}
-            systems={this.systems}
-            onEvent={this.onEvent}
-          />
-        </div>
+        <GameEngine
+          className={styles.game}
+          ref={this.ref}
+          entities={entities}
+          size={size}
+          systems={this.systems}
+          onEvent={this.onEvent}
+        />
         <div className={styles.score}>{score}</div>
         {status === 'game-over' ? <Result score={score} start={this.start} /> : null}
       </div>
     );
   }
-
-  private init = () => {
-    this.setState({
-      entities: initEntities(this.props.size),
-    });
-  };
 
   private onEvent = (event: IGameEvent) => {
     if (event.type === 'score') {
@@ -117,6 +110,8 @@ class GameBase extends React.PureComponent<IProps, IState> {
   };
 
   private start = () => {
+    Sound.gameOver.stop();
+    Sound.game.play();
     this.setState(
       {
         entities: initEntities(this.props.size),
@@ -129,7 +124,8 @@ class GameBase extends React.PureComponent<IProps, IState> {
 
   private onGameOver = () => {
     this.ref.current?.stop();
-
+    Sound.game.stop();
+    Sound.gameOver.play();
     this.setState({
       status: 'game-over',
     });

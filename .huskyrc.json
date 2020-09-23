@@ -1,7 +1,7 @@
 {
     "hooks": {
         "post-commit": "npm run release",
-        "pre-commit": "lint-staged",
+        "pre-commit": "lint-staged && npm run build --skipLibCheck && npm run stats",
         "prepare-commit-msg": "exec < /dev/tty && ./node_modules/.bin/git-cz --hook || true"
     }
 }

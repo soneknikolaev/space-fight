@@ -4,7 +4,7 @@ import { Enemy, IEnemy } from '../Enemy';
 
 export const inclined = (params: EnemyParams, maxWidth: number): ShapeMethods => {
   const { width } = params.size;
-  const gap = random(10, width);
+  const gap = random(10, Math.round(width / 2));
   const minCount = 2;
   const maxCount = Math.min(3, Math.floor(maxWidth / (width + gap)));
   const count = random(minCount, maxCount);

@@ -2,27 +2,19 @@ import forEach from 'lodash/forEach';
 import filter from 'lodash/filter';
 import find from 'lodash/find';
 import inRange from 'lodash/inRange';
-// import { Sound } from 'Service/SoundPlayer';
 
 import { Bullet, Enemy, IEnemy, Hero } from '../Entities';
 
-export const BulletSystem = (entities: IEntity[], params: SystemParams) => {
+export const BulletSystem = (entities: IEntity[]) => {
   const bullets: IEntity[] = [];
 
-  forEach(params.events, (event: IGameEvent) => {
-    if (event.type === 'shot') {
-      const { provider } = event as ShotGameEvent;
-      // Sound.shot.play();
-
-      bullets.push(new Bullet(provider, 'up'));
-    }
-  });
-
-  const hero = find(entities, (entity: IEntity) => entity instanceof Hero);
+  const hero = find(entities, (entity: IEntity) => entity instanceof Hero) as Hero;
 
   if (hero) {
     const { x } = hero.getPosition();
     const enemies = filter(entities, (entity: IEntity) => entity instanceof Enemy) as IEnemy[];
+
+    if (hero.canShot) bullets.push(new Bullet(hero, 'up'));
 
     forEach(enemies, (enemy: IEnemy) => {
       const { width } = enemy.getSize();
@@ -41,5 +33,6 @@ export const BulletSystem = (entities: IEntity[], params: SystemParams) => {
       }
     });
   }
+
   return [...entities, ...bullets];
 };

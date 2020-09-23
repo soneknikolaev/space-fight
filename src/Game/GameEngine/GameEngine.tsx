@@ -51,16 +51,27 @@ export class GameEngine extends React.PureComponent<IGameEngine, IState> {
 
   render() {
     const { className, size } = this.props;
-    return <canvas className={className} ref={this.ref} {...size} onMouseMove={this.onTouch} onClick={this.onTouch} />;
+    return (
+      <canvas className={className} ref={this.ref} {...size} onMouseMove={this.onMouse} onTouchMove={this.onTouch} />
+    );
   }
 
-  private onTouch = (e: React.MouseEvent) => {
+  private onMouse = (e: React.MouseEvent) => {
     this.touches.push({
-      canvas: Canvas(this.ref),
-      type: e.type,
+      type: 'move',
       position: {
-        x: e.nativeEvent.offsetX,
-        y: e.nativeEvent.offsetY,
+        x: e.clientX,
+        y: e.clientY,
+      },
+    });
+  };
+
+  private onTouch = (e: React.TouchEvent) => {
+    this.touches.push({
+      type: 'move',
+      position: {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
       },
     });
   };

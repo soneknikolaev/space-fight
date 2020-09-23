@@ -1,15 +1,40 @@
 import forEach from 'lodash/forEach';
+import find from 'lodash/find';
 
-export const TouchSystem = (entities: IEntity[], params: SystemParams) => {
-  const { touches } = params;
+import { Hero } from '../Entities';
+
+export const TouchSystem = (entities: IEntity[], { touches, canvas }: SystemParams) => {
+  const hero = find(entities, (entity) => entity instanceof Hero) as Hero;
+  if (!hero) return entities;
 
   forEach(touches, (touch: CanvasTouchEvent) => {
-    if (touch.type === 'mousemove') {
-      entities.forEach((entity: IEntity) => entity.onMove && entity.onMove(touch, params));
-    }
+    if (touch.type === 'move') {
+      const { position } = touch;
+      const heroSize = hero.getSize();
+      const canvasSize = canvas.getSize();
+      const width = heroSize.width / 2;
+      const height = heroSize.height / 2;
+      let { x, y } = position;
 
-    if (touch.type === 'click') {
-      entities.forEach((entity: IEntity) => entity.onPress && entity.onPress(touch, params));
+      const limitX = canvasSize.width - width;
+      const limitY = canvasSize.height - height;
+
+      if (x > limitX) {
+        x = limitX;
+      } else if (x < width) {
+        x = width;
+      }
+
+      if (y > limitY) {
+        y = limitY;
+      } else if (y < height) {
+        y = height;
+      }
+
+      const newX = Math.round(x - width);
+      const newY = Math.round(y - height);
+
+      hero.setTranslateTo(newX, newY);
     }
   });
 

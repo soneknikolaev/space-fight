@@ -1,8 +1,6 @@
 interface IEntityBase {
   render(canvas: Canvas): void;
   translate(canvas: Canvas): void;
-  onMove?(touch: TouchEngine, params: SystemParams): void;
-  onPress?(touch: TouchEngine, params: SystemParams): void;
 }
 
 interface IStaticBase {
