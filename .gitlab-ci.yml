@@ -1,0 +1,19 @@
+build:
+    image:
+        name: banst/awscli
+        entrypoint: [""]
+    script:
+        - pwd
+        - set -e
+        - echo $REACT_APP_CDN_URL
+        - npm i
+        - npm run build
+
+upload to s3:
+    image:
+        name: banst/awscli
+        entrypoint: [""]
+    script:
+        - aws configure set region eu-central-1
+        - aws s3 cp ./build s3://$S3_BUCKET/ --recursive
+        
