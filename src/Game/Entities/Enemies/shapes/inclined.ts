@@ -1,6 +1,6 @@
 import random from 'lodash/random';
 
-import { Enemy, IEnemy } from '../Enemy';
+import { Enemy } from '../Enemy';
 
 export const inclined = (params: EnemyParams, maxWidth: number): ShapeMethods => {
   const { width } = params.size;
@@ -12,7 +12,7 @@ export const inclined = (params: EnemyParams, maxWidth: number): ShapeMethods =>
   return {
     getWidth: (): number => count * (width + gap),
     getMaxCount: (): number => (maxCount >= minCount ? maxCount : 0),
-    build: (x0: number, y0: number): IEnemy[] => {
+    build: (x0: number, y0: number): Enemy[] => {
       const enemies = [];
       const shift = random(5, 20);
       let shiftByY = 0;

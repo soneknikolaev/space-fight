@@ -1,26 +1,12 @@
-interface IEntityBase {
-  render(canvas: Canvas): void;
-  translate(canvas: Canvas): void;
-}
-
-interface IStaticBase {
+type IEntity = {
   readonly isStatic: boolean;
   readonly id: string;
   getPosition(): Coordinate;
   getSize(): Size;
   setPosition(x: number, y: number): void;
   setSize(width: number, height: number): void;
-}
-
-interface IPhysicBase extends IStaticBase {
-  destroy(): void;
-  isDestroyed: boolean;
-}
-
-interface IPhysicEntity extends IPhysicBase, IEntityBase {}
-
-interface IStaticEntity extends IStaticBase, IEntityBase {}
-
-type IEntity = IPhysicEntity | IStaticEntity;
+  render(canvas: Canvas): void;
+  translate(canvas: Canvas): void;
+};
 
 type ISpace = FixedLengthArray<[number, number]>;

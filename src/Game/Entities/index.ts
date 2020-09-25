@@ -10,8 +10,8 @@ export * from './Enemies';
 export default (size: Size): IEntity[] => {
   const { width, height } = size;
 
-  const background1 = new Background(0, -height / 2);
-  const background2 = new Background(0, height / 2);
+  const background1 = new Background(0, -height / 2, true);
+  const background2 = new Background(0, height / 2, true);
 
   background1.setSize(width, height);
   background2.setSize(width, height);

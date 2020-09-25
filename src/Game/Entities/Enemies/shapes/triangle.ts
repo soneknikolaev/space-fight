@@ -1,7 +1,7 @@
 import random from 'lodash/random';
 import reduce from 'lodash/reduce';
 
-import { Enemy, IEnemy } from '../Enemy';
+import { Enemy } from '../Enemy';
 
 export const triangle = (params: EnemyParams, maxWidth: number): ShapeMethods => {
   const { width } = params.size;
@@ -24,7 +24,7 @@ export const triangle = (params: EnemyParams, maxWidth: number): ShapeMethods =>
   return {
     getWidth: (): number => max * (width + gap),
     getMaxCount: (): number => (maxCount >= minCount ? maxCount : 0),
-    build: (x0: number, y0: number): IEnemy[] => {
+    build: (x0: number, y0: number): Enemy[] => {
       const enemies = [];
       for (let i = 0; i <= lines.length; i += 1) {
         const line = lines[lines.length - 1 - i];

@@ -1,15 +1,17 @@
 import reduce from 'lodash/reduce';
-import find from 'lodash/find';
+import filter from 'lodash/filter';
 import inRange from 'lodash/inRange';
 
-export const getCollision = (entities: IPhysicEntity[]): Collision => {
+export const getCollision = (entities: IEntity[]): Collision => {
+  const notStaticEntities = filter(entities, (entity) => !entity.isStatic);
+
   return {
     pairs: reduce(
-      entities,
-      (acc: CollisionPair[], bodyA: IPhysicEntity) => {
+      notStaticEntities,
+      (acc: CollisionPair[], bodyA: IEntity) => {
         const { x: x1, y: y1 } = bodyA.getPosition();
         const { width: width1, height: height1 } = bodyA.getSize();
-        const bodyB = find(entities, (entity: IPhysicEntity) => {
+        const bodyB = notStaticEntities.find((entity: IEntity) => {
           if (entity === bodyA) return false;
 
           const { x: x2, y: y2 } = entity.getPosition();
@@ -23,10 +25,7 @@ export const getCollision = (entities: IPhysicEntity[]): Collision => {
         });
 
         if (bodyB) {
-          acc.push({
-            bodyA,
-            bodyB,
-          });
+          acc.push([bodyA, bodyB]);
         }
 
         return acc;

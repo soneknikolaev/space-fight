@@ -1,34 +1,23 @@
 import filter from 'lodash/filter';
 import forEach from 'lodash/forEach';
 
-import { PhysicBase, Enemy, Bullet } from '../Entities';
+import { Bullet, isBullet, isEnemy, isHero } from '../Entities';
 
 import { getCollision } from '../GameEngine';
 
 export const DestroySystem = (entities: IEntity[], params: SystemParams) => {
-  const physicEntities = [];
-  const staticEntities = [];
+  let destroyed: IEntity[] = [];
+  forEach(getCollision(entities).pairs, (pair: CollisionPair) => {
+    destroyed = destroyed.concat(pair);
+    const bullet = pair.find(isBullet) as Bullet | undefined;
+    const enemy = pair.find(isEnemy);
 
-  for (const entity of entities) {
-    entity instanceof PhysicBase ? physicEntities.push(entity) : staticEntities.push(entity);
-  }
-
-  forEach(getCollision(physicEntities).pairs, ({ bodyA, bodyB }: CollisionPair) => {
-    bodyA.destroy();
-    bodyB.destroy();
-
-    let provider;
-
-    if (bodyA instanceof Enemy && bodyB instanceof Bullet) provider = bodyB;
-    if (bodyB instanceof Enemy && bodyA instanceof Bullet) provider = bodyA;
-
-    if (provider) {
+    if (bullet && enemy && isHero(bullet.shooter)) {
       params.dispatch({
-        provider,
         type: 'score',
-      } as IGameEvent);
+      });
     }
   });
 
-  return [...staticEntities, ...filter(physicEntities, (entity: IPhysicEntity) => !entity.isDestroyed)];
+  return filter(entities, (entity1: IEntity) => !destroyed.find((entity2: IEntity) => entity1.id === entity2.id));
 };

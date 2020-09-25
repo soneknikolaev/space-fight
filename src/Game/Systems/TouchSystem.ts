@@ -1,10 +1,9 @@
 import forEach from 'lodash/forEach';
-import find from 'lodash/find';
 
-import { Hero } from '../Entities';
+import { Hero, isHero } from '../Entities';
 
 export const TouchSystem = (entities: IEntity[], { touches, canvas }: SystemParams) => {
-  const hero = find(entities, (entity) => entity instanceof Hero) as Hero;
+  const hero = entities.find((entity) => isHero(entity)) as Hero;
   if (!hero) return entities;
 
   forEach(touches, (touch: CanvasTouchEvent) => {

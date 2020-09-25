@@ -1,15 +1,18 @@
-import { PhysicBase } from './Base';
+import { Base } from './Base';
+import { isHero } from './Hero';
 
-type Direction = 'up' | 'down';
-export class Bullet extends PhysicBase implements IPhysicEntity {
-  readonly shooter: IPhysicEntity;
+export class Bullet extends Base implements IEntity {
+  readonly shooter: IEntity;
 
   readonly translateOn: number;
 
-  constructor(shooter: IPhysicEntity, direction: Direction) {
+  readonly color: string;
+
+  constructor(shooter: IEntity) {
     super(0, 0);
     this.shooter = shooter;
-    this.translateOn = direction === 'down' ? 10 : -10;
+    this.translateOn = isHero(shooter) ? -20 : 20;
+    this.color = isHero(shooter) ? '#D09BFF' : '#FF6347';
     this.setSize(2, 10);
     this.initPosition();
   }
@@ -17,37 +20,27 @@ export class Bullet extends PhysicBase implements IPhysicEntity {
   initPosition() {
     const shooterSize = this.shooter.getSize();
     const { x, y } = this.shooter.getPosition();
-
     const { width, height } = this.getSize();
-    const w = shooterSize.width + width;
-    const h = shooterSize.height + height;
-    this.setPosition(x + (this.translateOn > 0 ? w : -w), y + shooterSize.height / 2 - height);
 
-    this.setPosition(x + shooterSize.width / 2 - width, y + (this.translateOn > 0 ? h : -h));
+    this.setPosition(
+      x + shooterSize.width / 2 - width,
+      y + (this.translateOn > 0 ? shooterSize.height + height : -shooterSize.height / 2)
+    );
   }
 
   render(canvas: Canvas) {
-    this.translate(canvas);
     const ctx = canvas.getContext();
     const { x, y } = this.getPosition();
     const { width, height } = this.getSize();
 
-    ctx.fillStyle = '#FF6347';
-    ctx.rect(x, y, width, height);
-
-    ctx.fill();
+    ctx.fillStyle = `${this.color}`;
+    ctx.fillRect(x, y, width, height);
   }
 
-  translate(canvas: Canvas) {
-    const canvasSize = canvas.getSize();
+  translate() {
     const { x, y } = this.getPosition();
-
-    if (y < 0 || y > canvasSize.height) {
-      this.destroy();
-    }
-
-    if (!this.isDestroyed) {
-      this.setPosition(x, y + this.translateOn);
-    }
+    this.setPosition(x, y + this.translateOn);
   }
 }
+
+export const isBullet = (entity: IEntity): boolean => entity instanceof Bullet;

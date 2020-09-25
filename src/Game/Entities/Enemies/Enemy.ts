@@ -1,12 +1,6 @@
-import { PhysicBase } from '../Base';
+import { Base } from '../Base';
 
-export interface IEnemy extends IPhysicEntity {
-  readonly params: EnemyParams;
-  space: ISpace;
-  canShot: boolean;
-}
-
-export class Enemy extends PhysicBase implements IEnemy {
+export class Enemy extends Base implements IEntity {
   public readonly params: EnemyParams;
 
   private lastShot: number | undefined;
@@ -27,22 +21,9 @@ export class Enemy extends PhysicBase implements IEnemy {
     ctx.drawImage(this.params.img, x, y, width, height);
   }
 
-  translate(canvas: Canvas) {
+  translate() {
     const { x, y } = this.getPosition();
-    if (y < canvas.getSize().height) {
-      const newY = y + this.params.translateOn;
-      this.setPosition(x, newY);
-    } else {
-      this.destroy();
-    }
-  }
-
-  get space(): ISpace {
-    const { width } = this.getSize();
-    const { x } = this.getPosition();
-    const padding = 5;
-
-    return [x - padding, x + width + padding];
+    this.setPosition(x, y + this.params.translateOn);
   }
 
   get canShot(): boolean {
@@ -56,3 +37,5 @@ export class Enemy extends PhysicBase implements IEnemy {
     return false;
   }
 }
+
+export const isEnemy = (entity: IEntity): Boolean => entity instanceof Enemy;

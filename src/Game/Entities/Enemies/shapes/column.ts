@@ -1,6 +1,6 @@
 import random from 'lodash/random';
 
-import { Enemy, IEnemy } from '../Enemy';
+import { Enemy } from '../Enemy';
 
 export const column = (params: EnemyParams, maxWidth: number): ShapeMethods => {
   const { width, height } = params.size;
@@ -11,7 +11,7 @@ export const column = (params: EnemyParams, maxWidth: number): ShapeMethods => {
   return {
     getWidth: (): number => width,
     getMaxCount: (): number => (maxCount >= minCount ? maxCount : 0),
-    build: (x0: number, y0: number): IEnemy[] => {
+    build: (x0: number, y0: number): Enemy[] => {
       const enemies = [];
 
       for (let i = 0; i < count; i += 1) {

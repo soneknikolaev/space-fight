@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export class Base implements IStaticBase {
+import { LogicException } from 'Service/Exception';
+
+export class Base implements IEntity {
   readonly isStatic: boolean;
 
   readonly id: string;
@@ -9,7 +11,7 @@ export class Base implements IStaticBase {
 
   private size: Size = { width: 0, height: 0 };
 
-  constructor(x: number, y: number, isStatic: boolean = true) {
+  constructor(x: number, y: number, isStatic: boolean | undefined = false) {
     this.position = { x, y };
     this.id = uuidv4();
     this.isStatic = isStatic;
@@ -29,5 +31,13 @@ export class Base implements IStaticBase {
 
   setSize(width: number, height: number) {
     this.size = { width, height };
+  }
+
+  translate(_canvas: Canvas) {
+    throw new LogicException(`The method translate is not implemented at ${this.constructor.name}`);
+  }
+
+  render(_canvas: Canvas) {
+    throw new LogicException(`The method render is not implemented at ${this.constructor.name}`);
   }
 }

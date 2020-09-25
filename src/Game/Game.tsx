@@ -5,7 +5,7 @@ import { Sound } from 'Service/SoundPlayer';
 import { withResize } from './withResize';
 import { GameEngine } from './GameEngine';
 import initEntities from './Entities';
-import { DestroySystem, TouchSystem, EnemySystem, BulletSystem, StatusSystem } from './Systems';
+import { DestroySystem, TouchSystem, EnemySystem, BulletSystem, StatusSystem, EdgeSystem } from './Systems';
 import { Result } from './Result';
 
 import styles from './Game.module.scss';
@@ -23,7 +23,7 @@ interface IState {
 class GameBase extends React.PureComponent<IProps, IState> {
   ref: React.RefObject<GameEngine> = React.createRef();
 
-  private systems = [TouchSystem, BulletSystem, EnemySystem, DestroySystem, StatusSystem];
+  private systems = [TouchSystem, BulletSystem, EnemySystem, DestroySystem, StatusSystem, EdgeSystem];
 
   constructor(props: IProps) {
     super(props);

@@ -23,10 +23,7 @@ type Canvas = {
   setContextStyles(styles: GraphCanvasContextStyle): void;
 };
 
-type CollisionPair = {
-  bodyA: PhysicEntity;
-  bodyB: PhysicEntity;
-};
+type CollisionPair = FixedLengthArray<[IEntity, IEntity]>;
 
 type Collision = {
   pairs: CollisionPair[];

@@ -1,4 +1,5 @@
 import random from 'lodash/random';
+import sample from 'lodash/sample';
 import map from 'lodash/map';
 
 import { Base } from './Base';
@@ -7,14 +8,10 @@ type Star = Coordinate & { color: string; size: number };
 
 const colors = ['#0000FF', '#FFFF00', '#FFA500', '#FF0000', '#a87bff', '#a6a8ff', '#ffa371'];
 
-export class Background extends Base implements IEntityBase {
+export class Background extends Base implements IEntity {
   readonly translateOn = 3;
 
   private stars?: Star[];
-
-  constructor(x: number, y: number) {
-    super(x, y, false);
-  }
 
   render(canvas: Canvas) {
     const ctx = canvas.getContext();
@@ -46,7 +43,7 @@ export class Background extends Base implements IEntityBase {
       x: random(0, width),
       y: random(0, height),
       size: random(1, 5),
-      color: colors[random(0, colors.length - 1)],
+      color: sample(colors) || colors[0],
     }));
   }
 

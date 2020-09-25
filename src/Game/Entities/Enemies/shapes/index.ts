@@ -8,11 +8,11 @@ import { triangle } from './triangle';
 import { wedge } from './wedge';
 import { inclined } from './inclined';
 
-import { IEnemy } from '../Enemy';
+import { Enemy } from '../Enemy';
 
 const shapes = [column, front, triangle, wedge, inclined];
 
-export const createRandomShape = (edge: number, [p0, p1]: ISpace, params: EnemyParams): IEnemy[] => {
+export const createRandomShape = (edge: number, [p0, p1]: ISpace, params: EnemyParams): Enemy[] => {
   const width = p1 - p0;
 
   const shape = sample(
