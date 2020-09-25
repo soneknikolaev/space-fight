@@ -1,15 +1,15 @@
 import reduce from 'lodash/reduce';
 import sortBy from 'lodash/sortBy';
-import forEach from 'lodash/forEach';
 
-import { Enemy, isEnemy, minEnemySize } from '../../Entities';
+import { isEnemy, minEnemySize } from '../../Entities';
 
-export const getEnemySpace = (entity: Enemy): ISpace => {
+const ENEMY_PADDING = 5;
+
+export const getEnemySpace = (entity: IEntity): ISpace => {
   const { width } = entity.getSize();
   const { x } = entity.getPosition();
-  const padding = 5;
 
-  return [x - padding, x + width + padding];
+  return [x - ENEMY_PADDING, x + width + ENEMY_PADDING];
 };
 
 export const getSpaceWithEnemies = (entities: IEntity[]): ISpace[] => {
@@ -19,7 +19,7 @@ export const getSpaceWithEnemies = (entities: IEntity[]): ISpace[] => {
       (acc: ISpace[], entity: IEntity) => {
         if (!isEnemy(entity)) return acc;
 
-        const space = getEnemySpace(entity as Enemy);
+        const space = getEnemySpace(entity);
 
         if (!acc.find(([p0, p1]: ISpace) => p0 === space[0] && p1 === space[1])) {
           acc.push(space);
@@ -68,11 +68,11 @@ export const getBiggestFreeSpace = (entities: IEntity[], canvas: Canvas): ISpace
   const spaces = getSpaceWithoutEnemies(entities, canvas);
   let space: ISpace | undefined;
 
-  forEach(spaces, (newSpace: ISpace) => {
+  for (const newSpace of spaces) {
     if (!space || space[1] - space[0] < newSpace[1] - newSpace[0]) {
       space = newSpace;
     }
-  });
+  }
 
   return space;
 };

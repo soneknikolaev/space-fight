@@ -1,5 +1,4 @@
 import { Base } from './Base';
-import { isHero } from './Hero';
 
 export class Bullet extends Base implements IEntity {
   readonly shooter: IEntity;
@@ -8,11 +7,12 @@ export class Bullet extends Base implements IEntity {
 
   readonly color: string;
 
-  constructor(shooter: IEntity) {
+  constructor(shooter: IEntity, color: string, translateOn: number) {
     super(0, 0);
+
     this.shooter = shooter;
-    this.translateOn = isHero(shooter) ? -20 : 20;
-    this.color = isHero(shooter) ? '#D09BFF' : '#FF6347';
+    this.translateOn = translateOn;
+    this.color = color;
     this.setSize(2, 10);
     this.initPosition();
   }

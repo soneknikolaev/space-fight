@@ -1,6 +1,6 @@
 import { LogicException } from 'Service/Exception';
 
-export const Canvas = (ref: React.RefObject<HTMLCanvasElement>) => {
+export const Canvas = (ref: React.RefObject<HTMLCanvasElement>): Canvas => {
   return {
     get(): HTMLCanvasElement {
       const { current } = ref;
@@ -27,13 +27,7 @@ export const Canvas = (ref: React.RefObject<HTMLCanvasElement>) => {
     },
 
     getSize(): Size {
-      const { width, height } = this.get().getBoundingClientRect();
-
-      return { width, height };
-    },
-
-    setContextStyles(styles: GraphCanvasContextStyle): void {
-      Object.assign(this.getContext(), styles);
+      return this.get().getBoundingClientRect();
     },
   };
 };

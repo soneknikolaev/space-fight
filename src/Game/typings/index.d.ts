@@ -20,7 +20,6 @@ type Canvas = {
   get(): HTMLCanvasElement;
   getContext(): CanvasRenderingContext2D;
   getSize(): Size;
-  setContextStyles(styles: GraphCanvasContextStyle): void;
 };
 
 type CollisionPair = FixedLengthArray<[IEntity, IEntity]>;
