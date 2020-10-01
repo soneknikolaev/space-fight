@@ -1,5 +1,6 @@
 import reduce from 'lodash/reduce';
 import sortBy from 'lodash/sortBy';
+import maxBy from 'lodash/maxBy';
 
 import { isEnemy, minEnemySize } from '../../Entities';
 
@@ -65,16 +66,7 @@ export const getSpaceWithoutEnemies = (entities: IEntity[], canvas: Canvas): ISp
 };
 
 export const getBiggestFreeSpace = (entities: IEntity[], canvas: Canvas): ISpace | undefined => {
-  const spaces = getSpaceWithoutEnemies(entities, canvas);
-  let space: ISpace | undefined;
-
-  for (const newSpace of spaces) {
-    if (!space || space[1] - space[0] < newSpace[1] - newSpace[0]) {
-      space = newSpace;
-    }
-  }
-
-  return space;
+  return maxBy(getSpaceWithoutEnemies(entities, canvas), (space) => space[1] - space[0]);
 };
 
 export const getBusySpaceInProcent = (entities: IEntity[], canvas: Canvas): number => {

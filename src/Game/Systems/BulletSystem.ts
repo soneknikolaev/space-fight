@@ -10,11 +10,11 @@ export const BulletSystem = (entities: IEntity[]) => {
   const hero = entities.find(isHero) as Hero;
 
   if (hero) {
-    const { x } = hero.getPosition();
-    const enemies = filter(entities, isEnemy) as Enemy[];
-    const shift = hero.getSize().width * 2;
+    hero.canShot && bullets.push(new Bullet(hero, '#D09BFF', -20));
 
-    if (hero.canShot) bullets.push(new Bullet(hero, '#D09BFF', -20));
+    const { x } = hero.getPosition();
+    const shift = hero.getSize().width * 2;
+    const enemies = filter(entities, isEnemy) as Enemy[];
 
     forEach(enemies, (enemy: Enemy) => {
       const { width } = enemy.getSize();

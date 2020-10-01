@@ -5,6 +5,8 @@ import { Base } from './Base';
 const hero = getImage('bird.svg');
 
 export class Hero extends Base implements IEntity {
+  private readonly STEPS = 5;
+
   private translateTo: Coordinate = { x: 0, y: 0 };
 
   private rendersAfterShot: number = 0;
@@ -30,16 +32,16 @@ export class Hero extends Base implements IEntity {
   }
 
   translate() {
-    const STEPS = 5;
-    const { x, y } = this.getPosition();
+    const { x: x0, y: y0 } = this.getPosition();
+    const { x: x1, y: y1 } = this.translateTo;
 
-    const deltaX = Math.abs(this.translateTo.x - x);
-    const deltaY = Math.abs(this.translateTo.y - y);
-    const stepX = Math.min(Math.max(deltaX / STEPS, 10), deltaX);
-    const stepY = Math.min(Math.max(deltaY / STEPS, 10), deltaY);
+    const deltaX = Math.abs(x1 - x0);
+    const deltaY = Math.abs(y1 - y0);
+    const stepX = Math.min(Math.max(deltaX / this.STEPS, 10), deltaX);
+    const stepY = Math.min(Math.max(deltaY / this.STEPS, 10), deltaY);
 
-    const newX = this.translateTo.x > x ? x + stepX : x - stepX;
-    const newY = this.translateTo.y > y ? y + stepY : y - stepY;
+    const newX = x1 > x0 ? x0 + stepX : x0 - stepX;
+    const newY = y1 > y0 ? y0 + stepY : y0 - stepY;
 
     this.setPosition(newX, newY);
   }

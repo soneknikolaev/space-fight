@@ -27,7 +27,9 @@ export const Canvas = (ref: React.RefObject<HTMLCanvasElement>): Canvas => {
     },
 
     getSize(): Size {
-      return this.get().getBoundingClientRect();
+      const { width, height } = this.get().getBoundingClientRect();
+
+      return { width, height };
     },
   };
 };

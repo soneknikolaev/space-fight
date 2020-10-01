@@ -30,10 +30,9 @@ export const triangle = (params: EnemyParams, maxWidth: number): ShapeMethods =>
         const line = lines[lines.length - 1 - i];
         for (let j = 0; j <= line; j += 1) {
           const enemy = new Enemy(x0, y0, params);
-          const delta = max - line;
-          const padding = ((gap + enemy.getSize().width) * delta) / 2;
           const { x, y } = enemy.getPosition();
           const { height, width } = enemy.getSize();
+          const padding = ((gap + width) * (max - line)) / 2;
           enemy.setPosition(x + (width + gap) * j + padding, y + (height + gap) * i - height * (max + gap));
           enemies.push(enemy);
         }

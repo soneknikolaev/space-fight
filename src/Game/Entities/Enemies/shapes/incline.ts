@@ -2,7 +2,7 @@ import random from 'lodash/random';
 
 import { Enemy } from '../Enemy';
 
-export const inclined = (params: EnemyParams, maxWidth: number): ShapeMethods => {
+export const incline = (params: EnemyParams, maxWidth: number): ShapeMethods => {
   const { width } = params.size;
   const gap = random(10, Math.round(width / 2));
   const minCount = 2;

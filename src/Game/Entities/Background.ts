@@ -17,10 +17,11 @@ export class Background extends Base implements IEntity {
     const ctx = canvas.getContext();
     const { width, height } = this.getSize();
 
+    this.renderStars(ctx);
+
     ctx.fillStyle = '#050506';
     ctx.translate(0, this.getPosition().y - this.translateOn);
     ctx.fillRect(0, 0, width, height + 2 * this.translateOn);
-    this.renderStars(ctx);
   }
 
   translate() {
@@ -43,7 +44,7 @@ export class Background extends Base implements IEntity {
       x: random(0, width),
       y: random(0, height),
       size: random(1, 5),
-      color: sample(colors) || colors[0],
+      color: sample(colors) as string,
     }));
   }
 

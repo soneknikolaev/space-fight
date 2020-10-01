@@ -6,11 +6,11 @@ import { column } from './column';
 import { front } from './front';
 import { triangle } from './triangle';
 import { wedge } from './wedge';
-import { inclined } from './inclined';
+import { incline } from './incline';
 
 import { Enemy } from '../Enemy';
 
-const shapes = [column, front, triangle, wedge, inclined];
+const shapes = [column, front, triangle, wedge, incline];
 
 export const createRandomShape = (edge: number, [p0, p1]: ISpace, params: EnemyParams): Enemy[] => {
   const width = p1 - p0;

@@ -9,11 +9,11 @@ export class Bullet extends Base implements IEntity {
 
   constructor(shooter: IEntity, color: string, translateOn: number) {
     super(0, 0);
+    this.setSize(2, 10);
 
     this.shooter = shooter;
     this.translateOn = translateOn;
     this.color = color;
-    this.setSize(2, 10);
     this.initPosition();
   }
 

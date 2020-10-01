@@ -12,7 +12,7 @@ export const getCollision = (entities: IEntity[]): Collision => {
         const { x: x1, y: y1 } = bodyA.getPosition();
         const { width: width1, height: height1 } = bodyA.getSize();
         const bodyB = notStaticEntities.find((entity: IEntity) => {
-          if (entity === bodyA) return false;
+          if (entity.id === bodyA.id) return false;
 
           const { x: x2, y: y2 } = entity.getPosition();
           const { width: width2, height: height2 } = entity.getSize();
@@ -24,9 +24,7 @@ export const getCollision = (entities: IEntity[]): Collision => {
           return isCollisionByX && isCollisionByY;
         });
 
-        if (bodyB) {
-          acc.push([bodyA, bodyB]);
-        }
+        bodyB && acc.push([bodyA, bodyB]);
 
         return acc;
       },
