@@ -32,7 +32,7 @@ export class Hero extends Base implements IEntity {
     this.translateTo = { x, y };
   }
 
-  translate() {
+  private translate() {
     const { x: x0, y: y0 } = this.getPosition();
     const { x: x1, y: y1 } = this.translateTo;
 
