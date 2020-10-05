@@ -33,10 +33,6 @@ export class Base implements IEntity {
     this.size = { width, height };
   }
 
-  translate(_canvas: Canvas) {
-    throw new LogicException(`The method translate is not implemented at ${this.constructor.name}`);
-  }
-
   render(_canvas: Canvas) {
     throw new LogicException(`The method render is not implemented at ${this.constructor.name}`);
   }

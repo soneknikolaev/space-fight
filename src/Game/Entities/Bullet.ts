@@ -35,10 +35,7 @@ export class Bullet extends Base implements IEntity {
 
     ctx.fillStyle = `${this.color}`;
     ctx.fillRect(x, y, width, height);
-  }
 
-  translate() {
-    const { x, y } = this.getPosition();
     this.setPosition(x, y + this.translateOn);
   }
 }

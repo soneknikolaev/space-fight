@@ -15,21 +15,22 @@ export class Background extends Base implements IEntity {
 
   render(canvas: Canvas) {
     const ctx = canvas.getContext();
+    this.translate(ctx);
     const { width, height } = this.getSize();
 
-    this.renderStars(ctx);
-
     ctx.fillStyle = '#050506';
-    ctx.translate(0, this.getPosition().y - this.translateOn);
-    ctx.fillRect(0, 0, width, height + 2 * this.translateOn);
+    ctx.fillRect(0, 0, width, height);
+
+    this.renderStars(ctx);
   }
 
-  translate() {
+  private translate(ctx: CanvasRenderingContext2D) {
     const { x, y } = this.getPosition();
     const { height } = this.getSize();
     const isFinished = y >= height;
     const newY = isFinished ? -height : y + this.translateOn;
 
+    ctx.translate(x, newY);
     this.setPosition(x, newY);
 
     if (isFinished) {
@@ -44,7 +45,7 @@ export class Background extends Base implements IEntity {
       x: random(0, width),
       y: random(0, height),
       size: random(1, 5),
-      color: sample(colors) as string,
+      color: sample(colors) || colors[0],
     }));
   }
 

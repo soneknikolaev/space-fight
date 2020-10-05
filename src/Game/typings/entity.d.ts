@@ -6,7 +6,6 @@ type IEntity = {
   setPosition(x: number, y: number): void;
   setSize(width: number, height: number): void;
   render(canvas: Canvas): void;
-  translate(canvas: Canvas): void;
 };
 
 type ISpace = FixedLengthArray<[number, number]>;

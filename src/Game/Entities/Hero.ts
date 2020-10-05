@@ -23,6 +23,7 @@ export class Hero extends Base implements IEntity {
     const { width, height } = this.getSize();
 
     ctx.drawImage(hero, x, y, width, height);
+    this.translate();
 
     this.rendersAfterShot += 1;
   }

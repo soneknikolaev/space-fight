@@ -19,10 +19,7 @@ export class Enemy extends Base implements IEntity {
     const { width, height } = this.getSize();
 
     ctx.drawImage(this.params.img, x, y, width, height);
-  }
 
-  translate() {
-    const { x, y } = this.getPosition();
     this.setPosition(x, y + this.params.translateOn);
   }
 

@@ -107,7 +107,6 @@ export class GameEngine extends React.PureComponent<IGameEngine, IState> {
     for (const entity of this.entities) {
       ctx.save();
       entity.render(canvas);
-      entity.translate(canvas);
       ctx.restore();
     }
   };
